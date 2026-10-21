@@ -1,0 +1,95 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HOLM HP/HC, pricing and subscription",
+        "description": "Set your off-peak hours and prices.",
+        "data": {
+          "hc_ranges": "Off-peak time ranges"
+        },
+        "data_description": {
+          "hc_ranges": "Comma separated, e.g. 14:58-16:58, 23:28-05:28."
+        },
+        "sections": {
+          "prix": {
+            "name": "Prices, taxes and subscription",
+            "data": {
+              "price_hc": "Off-peak price per kWh",
+              "price_hp": "Peak price per kWh",
+              "subscription": "Subscription (€ per month)",
+              "cspe": "CSPE / excise (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Solar buy-back price (€/kWh)",
+              "buyback_tax": "Tax on resale (€/kWh)"
+            }
+          },
+          "liens": {
+            "name": "Existing helpers and meter (optional)",
+            "data": {
+              "price_hc": "Off-peak price per kWh",
+              "price_hp": "Peak price per kWh",
+              "subscription": "Subscription (€ per month)",
+              "cspe": "CSPE / excise (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Solar buy-back price (€/kWh)",
+              "buyback_tax": "Tax on resale (€/kWh)",
+              "linky_entity": "Linky meter: current period",
+              "linky_hc_values": "Meter values meaning off-peak"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Unreadable ranges."
+    },
+    "abort": {
+      "already_configured": "Already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "HOLM HP/HC, pricing and subscription",
+        "description": "Set your off-peak hours and prices.",
+        "data": {
+          "hc_ranges": "Off-peak time ranges"
+        },
+        "data_description": {
+          "hc_ranges": "Comma separated, e.g. 14:58-16:58, 23:28-05:28."
+        },
+        "sections": {
+          "prix": {
+            "name": "Prices, taxes and subscription",
+            "data": {
+              "price_hc": "Off-peak price per kWh",
+              "price_hp": "Peak price per kWh",
+              "subscription": "Subscription (€ per month)",
+              "cspe": "CSPE / excise (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Solar buy-back price (€/kWh)",
+              "buyback_tax": "Tax on resale (€/kWh)"
+            }
+          },
+          "liens": {
+            "name": "Existing helpers and meter (optional)",
+            "data": {
+              "price_hc": "Off-peak price per kWh",
+              "price_hp": "Peak price per kWh",
+              "subscription": "Subscription (€ per month)",
+              "cspe": "CSPE / excise (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Solar buy-back price (€/kWh)",
+              "buyback_tax": "Tax on resale (€/kWh)",
+              "linky_entity": "Linky meter: current period",
+              "linky_hc_values": "Meter values meaning off-peak"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Unreadable ranges."
+    }
+  }
+}

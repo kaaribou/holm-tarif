@@ -1,0 +1,14 @@
+{
+  "domain": "holm_tarif",
+  "name": "HOLM HP/HC, Tarification et abonnement",
+  "after_dependencies": ["frontend", "lovelace"],
+  "codeowners": ["@kaaribou"],
+  "config_flow": true,
+  "dependencies": ["http"],
+  "documentation": "https://github.com/kaaribou/holm-tarif",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/kaaribou/holm-tarif/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}

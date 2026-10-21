@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HOLM HP/HC, Tarification et abonnement",
+        "description": "Indiquez vos heures creuses et vos prix. Vous pourrez tout modifier ensuite, ici ou depuis la carte HOLM HP/HC.",
+        "data": {
+          "hc_ranges": "Plages heures creuses"
+        },
+        "data_description": {
+          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit."
+        },
+        "sections": {
+          "prix": {
+            "name": "Prix, taxes et abonnement",
+            "description": "Les montants sont conservés par l'intégration (entités « nombre » modifiables).",
+            "data": {
+              "price_hc": "Prix du kWh en heures creuses",
+              "price_hp": "Prix du kWh en heures pleines",
+              "subscription": "Abonnement (€ par mois)",
+              "cspe": "CSPE / accise (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Prix de rachat du surplus solaire (€/kWh)",
+              "buyback_tax": "Taxe sur la revente (€/kWh)"
+            }
+          },
+          "liens": {
+            "name": "Entrées existantes et compteur (facultatif)",
+            "description": "Vous avez déjà des entrées de prix (input_number) utilisées par le tableau Énergie ou vos cartes ? Reliez-les : chaque modification de prix les met aussi à jour, et inversement.",
+            "data": {
+              "price_hc": "Prix du kWh en heures creuses",
+              "price_hp": "Prix du kWh en heures pleines",
+              "subscription": "Abonnement",
+              "cspe": "CSPE / accise",
+              "tcfe": "TCFE",
+              "buyback": "Prix de rachat du surplus solaire",
+              "buyback_tax": "Taxe sur la revente",
+              "linky_entity": "Compteur Linky : période en cours",
+              "linky_hc_values": "Valeurs du compteur qui signifient « heures creuses »"
+            },
+            "data_description": {
+              "linky_entity": "Si votre compteur indique la période en cours (PTEC, tarif en cours…), il prime sur les horaires.",
+              "linky_hc_values": "Séparées par des virgules."
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Plages illisibles : utilisez le format 22:00-06:00, séparées par des virgules."
+    },
+    "abort": {
+      "already_configured": "HOLM HP/HC est déjà configuré."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Heures creuses et tarifs",
+        "description": "Indiquez vos heures creuses et vos prix. Vous pourrez tout modifier ensuite, ici ou depuis la carte HOLM HP/HC.",
+        "data": {
+          "hc_ranges": "Plages heures creuses"
+        },
+        "data_description": {
+          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit."
+        },
+        "sections": {
+          "prix": {
+            "name": "Prix, taxes et abonnement",
+            "description": "Les montants sont conservés par l'intégration (entités « nombre » modifiables).",
+            "data": {
+              "price_hc": "Prix du kWh en heures creuses",
+              "price_hp": "Prix du kWh en heures pleines",
+              "subscription": "Abonnement (€ par mois)",
+              "cspe": "CSPE / accise (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Prix de rachat du surplus solaire (€/kWh)",
+              "buyback_tax": "Taxe sur la revente (€/kWh)"
+            }
+          },
+          "liens": {
+            "name": "Entrées existantes et compteur (facultatif)",
+            "description": "Vous avez déjà des entrées de prix (input_number) utilisées par le tableau Énergie ou vos cartes ? Reliez-les : chaque modification de prix les met aussi à jour, et inversement.",
+            "data": {
+              "price_hc": "Prix du kWh en heures creuses",
+              "price_hp": "Prix du kWh en heures pleines",
+              "subscription": "Abonnement",
+              "cspe": "CSPE / accise",
+              "tcfe": "TCFE",
+              "buyback": "Prix de rachat du surplus solaire",
+              "buyback_tax": "Taxe sur la revente",
+              "linky_entity": "Compteur Linky : période en cours",
+              "linky_hc_values": "Valeurs du compteur qui signifient « heures creuses »"
+            },
+            "data_description": {
+              "linky_entity": "Si votre compteur indique la période en cours (PTEC, tarif en cours…), il prime sur les horaires.",
+              "linky_hc_values": "Séparées par des virgules."
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Plages illisibles : utilisez le format 22:00-06:00, séparées par des virgules."
+    }
+  }
+}
