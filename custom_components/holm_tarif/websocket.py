@@ -6,7 +6,7 @@ import voluptuous as vol
 from homeassistant.components import websocket_api
 from homeassistant.core import HomeAssistant, callback
 
-from .const import CONF_RANGES, DOMAIN, PRICE_DEFS, PRICE_KEYS
+from .const import ALL_KEYS, CONF_RANGES, DOMAIN, PRICE_DEFS, TEMPO_LABELS
 from .schedule import format_ranges, parse_ranges
 
 
@@ -26,7 +26,11 @@ def _payload(entry, admin: bool) -> dict:
     return {
         "ranges": [[f"{a // 60:02d}:{a % 60:02d}", f"{b // 60:02d}:{b % 60:02d}"] for a, b in m.ranges],
         "prices": [{"key": k, "name": PRICE_DEFS[k][0], "unit": PRICE_DEFS[k][2], "decimals": PRICE_DEFS[k][3],
-                    "value": m.value(k), "link": m.entities.get(k), "entity_id": f"number.{PRICE_DEFS[k][1]}"} for k in PRICE_KEYS],
+                    "value": m.value(k), "link": m.entities.get(k), "entity_id": f"number.{PRICE_DEFS[k][1]}",
+                    "group": ("tempo_" + k.split("_")[1]) if k.count("_") == 2 else "base"} for k in m.active_keys()],
+        "tariff": "tempo" if m.tempo else "hchp",
+        "tempo": {"today": TEMPO_LABELS.get(m.state.get("tempo")), "tomorrow": TEMPO_LABELS.get(m.state.get("tempo_tomorrow")),
+                  "source": m.tempo_today, "source_tomorrow": m.tempo_tomorrow} if m.tempo else None,
         "admin": admin,
     }
 
@@ -43,7 +47,7 @@ def ws_get(hass, connection, msg):
 @websocket_api.require_admin
 @websocket_api.websocket_command({vol.Required("type"): "holm_tarif/set",
                                   vol.Optional("ranges"): [[str]],
-                                  vol.Optional("prices"): {vol.In(PRICE_KEYS): vol.Coerce(float)}})
+                                  vol.Optional("prices"): {vol.In(ALL_KEYS): vol.Coerce(float)}})
 @websocket_api.async_response
 async def ws_set(hass, connection, msg):
     entry = _entry(hass)

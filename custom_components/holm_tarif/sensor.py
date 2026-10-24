@@ -1,16 +1,18 @@
-"""Capteurs : mode heure, tarif actuel, prochain changement, prochaine bascule, abonnement par jour."""
+"""Capteurs : mode heure, tarif actuel, prochain changement, prochaine bascule, abonnement par jour, couleurs Tempo."""
 from __future__ import annotations
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 
-from .const import HC_LABEL, HP_LABEL, PRICE_DEFS
+from .const import HC_LABEL, HP_LABEL, PRICE_DEFS, TEMPO_LABELS, TEMPO_UNKNOWN
 from .entity import TarifEntity
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
     m = entry.runtime_data
-    async_add_entities([ModeSensor(entry, m), PriceSensor(entry, m), NextTextSensor(entry, m), NextTimeSensor(entry, m),
-                        SubscriptionDaySensor(entry, m)])
+    ents = [ModeSensor(entry, m), PriceSensor(entry, m), NextTextSensor(entry, m), NextTimeSensor(entry, m), SubscriptionDaySensor(entry, m)]
+    if m.tempo:
+        ents += [TempoColorSensor(entry, m, False), TempoColorSensor(entry, m, True)]
+    async_add_entities(ents)
 
 
 class ModeSensor(TarifEntity, SensorEntity):
@@ -52,7 +54,8 @@ class PriceSensor(TarifEntity, SensorEntity):
     @property
     def extra_state_attributes(self):
         s = self.manager.state
-        return {"periode": s.get("period"), **(s.get("prices") or {}),
+        tempo = {"couleur": TEMPO_LABELS.get(s.get("tempo"), TEMPO_UNKNOWN)} if self.manager.tempo else {}
+        return {"periode": s.get("period"), **tempo, **(s.get("prices") or {}),
                 "reglages": {PRICE_DEFS[k][4]: f"number.{PRICE_DEFS[k][1]}" for k in PRICE_DEFS},
                 "entrees_reliees": {PRICE_DEFS[k][4]: v for k, v in self.manager.entities.items() if v}}
 
@@ -114,3 +117,34 @@ class SubscriptionDaySensor(TarifEntity, SensorEntity):
     @property
     def icon(self):
         return "mdi:calendar-today"
+
+
+class TempoColorSensor(TarifEntity, SensorEntity):
+    """Couleur Tempo du jour ou de demain (Bleu / Blanc / Rouge), avec les prix de cette couleur."""
+    _attr_device_class = SensorDeviceClass.ENUM
+    _attr_options = [*TEMPO_LABELS.values(), TEMPO_UNKNOWN]
+
+    def __init__(self, entry, m, tomorrow: bool):
+        self.tomorrow = tomorrow
+        key = "tempo_couleur_demain" if tomorrow else "tempo_couleur_aujourdhui"
+        super().__init__(entry, m, key, "Couleur Tempo de demain" if tomorrow else "Couleur Tempo du jour")
+
+    def _col(self):
+        return self.manager.state.get("tempo_tomorrow" if self.tomorrow else "tempo")
+
+    @property
+    def native_value(self):
+        return TEMPO_LABELS.get(self._col(), TEMPO_UNKNOWN)
+
+    @property
+    def icon(self):
+        return {"bleu": "mdi:circle", "blanc": "mdi:circle-outline", "rouge": "mdi:alert-circle"}.get(self._col(), "mdi:help-circle-outline")
+
+    @property
+    def extra_state_attributes(self):
+        c = self._col()
+        src = self.manager.tempo_tomorrow if self.tomorrow else self.manager.tempo_today
+        out = {"source": src}
+        if c:
+            out.update({"prix_hc": self.manager.value(f"price_{c}_hc"), "prix_hp": self.manager.value(f"price_{c}_hp")})
+        return out

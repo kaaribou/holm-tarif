@@ -5,10 +5,12 @@
         "title": "HOLM HP/HC, Tarification et abonnement",
         "description": "Indiquez vos heures creuses et vos prix. Vous pourrez tout modifier ensuite, ici ou depuis la carte HOLM HP/HC.",
         "data": {
+          "tariff": "Option tarifaire",
           "hc_ranges": "Plages heures creuses"
         },
         "data_description": {
-          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit."
+          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit.",
+          "tariff": "Heures creuses / heures pleines, ou Tempo (jours Bleus, Blancs et Rouges)."
         },
         "sections": {
           "prix": {
@@ -22,6 +24,24 @@
               "tcfe": "TCFE (€/kWh)",
               "buyback": "Prix de rachat du surplus solaire (€/kWh)",
               "buyback_tax": "Taxe sur la revente (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Option Tempo",
+            "description": "Seulement pour l'option Tempo : les 6 prix et la couleur du jour. Avec l'intégration RTE Tempo, les couleurs sont trouvées automatiquement.",
+            "data": {
+              "price_bleu_hc": "Bleu, heures creuses (€/kWh)",
+              "price_bleu_hp": "Bleu, heures pleines (€/kWh)",
+              "price_blanc_hc": "Blanc, heures creuses (€/kWh)",
+              "price_blanc_hp": "Blanc, heures pleines (€/kWh)",
+              "price_rouge_hc": "Rouge, heures creuses (€/kWh)",
+              "price_rouge_hp": "Rouge, heures pleines (€/kWh)",
+              "tempo_today_entity": "Couleur du jour",
+              "tempo_tomorrow_entity": "Couleur de demain"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entité dont l'état est Bleu / Blanc / Rouge (RTE Tempo, compteur…).",
+              "tempo_tomorrow_entity": "Facultatif."
             }
           },
           "liens": {
@@ -59,10 +79,12 @@
         "title": "Heures creuses et tarifs",
         "description": "Indiquez vos heures creuses et vos prix. Vous pourrez tout modifier ensuite, ici ou depuis la carte HOLM HP/HC.",
         "data": {
+          "tariff": "Option tarifaire",
           "hc_ranges": "Plages heures creuses"
         },
         "data_description": {
-          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit."
+          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit.",
+          "tariff": "Heures creuses / heures pleines, ou Tempo (jours Bleus, Blancs et Rouges)."
         },
         "sections": {
           "prix": {
@@ -76,6 +98,24 @@
               "tcfe": "TCFE (€/kWh)",
               "buyback": "Prix de rachat du surplus solaire (€/kWh)",
               "buyback_tax": "Taxe sur la revente (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Option Tempo",
+            "description": "Seulement pour l'option Tempo : les 6 prix et la couleur du jour. Avec l'intégration RTE Tempo, les couleurs sont trouvées automatiquement.",
+            "data": {
+              "price_bleu_hc": "Bleu, heures creuses (€/kWh)",
+              "price_bleu_hp": "Bleu, heures pleines (€/kWh)",
+              "price_blanc_hc": "Blanc, heures creuses (€/kWh)",
+              "price_blanc_hp": "Blanc, heures pleines (€/kWh)",
+              "price_rouge_hc": "Rouge, heures creuses (€/kWh)",
+              "price_rouge_hp": "Rouge, heures pleines (€/kWh)",
+              "tempo_today_entity": "Couleur du jour",
+              "tempo_tomorrow_entity": "Couleur de demain"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entité dont l'état est Bleu / Blanc / Rouge (RTE Tempo, compteur…).",
+              "tempo_tomorrow_entity": "Facultatif."
             }
           },
           "liens": {
@@ -102,6 +142,14 @@
     },
     "error": {
       "bad_ranges": "Plages illisibles : utilisez le format 22:00-06:00, séparées par des virgules."
+    }
+  },
+  "selector": {
+    "tariff": {
+      "options": {
+        "hchp": "Heures creuses / heures pleines",
+        "tempo": "Tempo (EDF)"
+      }
     }
   }
 }

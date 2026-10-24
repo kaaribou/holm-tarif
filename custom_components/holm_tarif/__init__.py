@@ -10,9 +10,9 @@ from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 
-from .const import CARD_NAME, CARD_URL, DOMAIN, STATIC_PATH, VERSION
+from .const import CARD_NAME, CARD_URL, DOMAIN, STATIC_PATH, TEMPO_KEYS, VERSION
 from .tarif import TarifManager
 from .websocket import async_register
 
@@ -33,6 +33,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     dev_reg = dr.async_get(hass)
     for device in dr.async_entries_for_config_entry(dev_reg, entry.entry_id):
         dev_reg.async_remove_device(device.id)
+    # sans l'option Tempo, ses entités (prix Tempo, couleurs) ne doivent pas rester « indisponibles »
+    if not manager.tempo:
+        ent_reg = er.async_get(hass)
+        tempo_ids = {f"{entry.entry_id}_number_{k}" for k in TEMPO_KEYS} | {f"{entry.entry_id}_tempo_couleur_aujourdhui", f"{entry.entry_id}_tempo_couleur_demain"}
+        for e in er.async_entries_for_config_entry(ent_reg, entry.entry_id):
+            if e.unique_id in tempo_ids:
+                ent_reg.async_remove(e.entity_id)
     entry.runtime_data = manager
     entry.async_on_unload(manager.stop)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

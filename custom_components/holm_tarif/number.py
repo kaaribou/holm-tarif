@@ -3,12 +3,13 @@ from __future__ import annotations
 
 from homeassistant.components.number import NumberEntity, NumberMode
 
-from .const import PRICE_DEFS, PRICE_KEYS
+from .const import PRICE_DEFS
 from .entity import TarifEntity
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    async_add_entities([PriceNumber(entry, entry.runtime_data, k) for k in PRICE_KEYS])
+    m = entry.runtime_data
+    async_add_entities([PriceNumber(entry, m, k) for k in m.active_keys()])
 
 
 class PriceNumber(TarifEntity, NumberEntity):
@@ -25,7 +26,8 @@ class PriceNumber(TarifEntity, NumberEntity):
         self._attr_native_unit_of_measurement = unit
         self._attr_icon = {"subscription": "mdi:calendar-month", "cspe": "mdi:bank-outline", "tcfe": "mdi:bank-outline",
                            "buyback": "mdi:solar-power-variant", "buyback_tax": "mdi:percent-outline",
-                           "price_hp": "mdi:fire"}.get(key, "mdi:leaf")
+                           "price_hp": "mdi:fire"}.get(key) or (
+            {"bleu": "mdi:circle", "blanc": "mdi:circle-outline", "rouge": "mdi:alert-circle"}.get(key.split("_")[1]) if key.count("_") == 2 else None) or "mdi:leaf"
 
     @property
     def native_value(self):

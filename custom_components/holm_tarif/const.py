@@ -1,6 +1,6 @@
 """Constantes de HOLM HP/HC, Tarification et abonnement."""
 DOMAIN = "holm_tarif"
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 NAME = "HOLM HP/HC"
 
 CONF_RANGES = "hc_ranges"
@@ -13,6 +13,18 @@ CONF_BUYBACK = "buyback"
 CONF_BUYBACK_TAX = "buyback_tax"
 CONF_LINKY = "linky_entity"
 CONF_LINKY_HC = "linky_hc_values"
+CONF_TARIFF = "tariff"
+TARIFF_HCHP = "hchp"
+TARIFF_TEMPO = "tempo"
+CONF_TEMPO_TODAY = "tempo_today_entity"
+CONF_TEMPO_TOMORROW = "tempo_tomorrow_entity"
+SECTION_TEMPO = "tempo"
+
+# Tempo : couleurs (valeur exposée, libellé)
+TEMPO_COLORS = ("bleu", "blanc", "rouge")
+TEMPO_LABELS = {"bleu": "Bleu", "blanc": "Blanc", "rouge": "Rouge"}
+TEMPO_UNKNOWN = "Inconnu"
+TEMPO_KEYS = tuple(f"price_{c}_{p}" for c in TEMPO_COLORS for p in ("hc", "hp"))
 
 DEFAULT_RANGES = "22:00-06:00"
 DEFAULT_LINKY_HC = "HC, HC.., heures creuses, creuses"
@@ -42,6 +54,10 @@ PRICE_DEFS = {
     CONF_BUYBACK: ("Prix de rachat du surplus", "tarif_prix_rachat", "EUR/kWh", 5, "prix_rachat"),
     CONF_BUYBACK_TAX: ("Taxe sur la revente", "tarif_taxe_revente", "EUR/kWh", 5, "taxe_revente"),
 }
+for _c in TEMPO_COLORS:
+    for _p, _pl in (("hc", "heures creuses"), ("hp", "heures pleines")):
+        PRICE_DEFS[f"price_{_c}_{_p}"] = (f"Prix Tempo {TEMPO_LABELS[_c]} {_pl}", f"tarif_prix_{_c}_{_p}", "EUR/kWh", 5, f"prix_{_c}_{_p}")
+ALL_KEYS = PRICE_KEYS + TEMPO_KEYS
 STORE_KEY = "holm_tarif.values"
 
 HC_LABEL = "Heures Creuses"

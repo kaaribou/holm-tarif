@@ -5,10 +5,12 @@
         "title": "HOLM HP/HC, pricing and subscription",
         "description": "Set your off-peak hours and prices.",
         "data": {
+          "tariff": "Tariff option",
           "hc_ranges": "Off-peak time ranges"
         },
         "data_description": {
-          "hc_ranges": "Comma separated, e.g. 14:58-16:58, 23:28-05:28."
+          "hc_ranges": "Comma separated, e.g. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Off-peak / peak hours, or Tempo (Blue, White and Red days)."
         },
         "sections": {
           "prix": {
@@ -21,6 +23,24 @@
               "tcfe": "TCFE (€/kWh)",
               "buyback": "Solar buy-back price (€/kWh)",
               "buyback_tax": "Tax on resale (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Tempo option",
+            "description": "Only for the Tempo option: the 6 prices and the day colour. With the RTE Tempo integration, colours are found automatically.",
+            "data": {
+              "price_bleu_hc": "Blue, off-peak (€/kWh)",
+              "price_bleu_hp": "Blue, peak (€/kWh)",
+              "price_blanc_hc": "White, off-peak (€/kWh)",
+              "price_blanc_hp": "White, peak (€/kWh)",
+              "price_rouge_hc": "Red, off-peak (€/kWh)",
+              "price_rouge_hp": "Red, peak (€/kWh)",
+              "tempo_today_entity": "Today's colour",
+              "tempo_tomorrow_entity": "Tomorrow's colour"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entity whose state is Blue / White / Red (RTE Tempo, meter…).",
+              "tempo_tomorrow_entity": "Optional."
             }
           },
           "liens": {
@@ -53,10 +73,12 @@
         "title": "HOLM HP/HC, pricing and subscription",
         "description": "Set your off-peak hours and prices.",
         "data": {
+          "tariff": "Tariff option",
           "hc_ranges": "Off-peak time ranges"
         },
         "data_description": {
-          "hc_ranges": "Comma separated, e.g. 14:58-16:58, 23:28-05:28."
+          "hc_ranges": "Comma separated, e.g. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Off-peak / peak hours, or Tempo (Blue, White and Red days)."
         },
         "sections": {
           "prix": {
@@ -69,6 +91,24 @@
               "tcfe": "TCFE (€/kWh)",
               "buyback": "Solar buy-back price (€/kWh)",
               "buyback_tax": "Tax on resale (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Tempo option",
+            "description": "Only for the Tempo option: the 6 prices and the day colour. With the RTE Tempo integration, colours are found automatically.",
+            "data": {
+              "price_bleu_hc": "Blue, off-peak (€/kWh)",
+              "price_bleu_hp": "Blue, peak (€/kWh)",
+              "price_blanc_hc": "White, off-peak (€/kWh)",
+              "price_blanc_hp": "White, peak (€/kWh)",
+              "price_rouge_hc": "Red, off-peak (€/kWh)",
+              "price_rouge_hp": "Red, peak (€/kWh)",
+              "tempo_today_entity": "Today's colour",
+              "tempo_tomorrow_entity": "Tomorrow's colour"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entity whose state is Blue / White / Red (RTE Tempo, meter…).",
+              "tempo_tomorrow_entity": "Optional."
             }
           },
           "liens": {
@@ -90,6 +130,14 @@
     },
     "error": {
       "bad_ranges": "Unreadable ranges."
+    }
+  },
+  "selector": {
+    "tariff": {
+      "options": {
+        "hchp": "Off-peak / peak hours",
+        "tempo": "Tempo (EDF)"
+      }
     }
   }
 }

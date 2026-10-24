@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
 
+from .const import TEMPO_LABELS, TEMPO_UNKNOWN
 from .entity import TarifEntity
 
 
@@ -30,4 +31,5 @@ class HCBinarySensor(TarifEntity, BinarySensorEntity):
         nxt = s.get("next")
         return {"periode": s.get("period"), "tarif": s.get("price"), "plages_hc": s.get("ranges"),
                 "prochaine_bascule": nxt.isoformat() if nxt else None, "prochaine_periode": s.get("next_label"),
-                "source": s.get("source")}
+                "source": s.get("source"),
+                **({"couleur": TEMPO_LABELS.get(s.get("tempo"), TEMPO_UNKNOWN)} if self.manager.tempo else {})}
