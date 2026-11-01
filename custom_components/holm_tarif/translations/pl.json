@@ -1,0 +1,143 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HOLM HP/HC, taryfy i opłata stała",
+        "description": "Ustaw godziny poza szczytem i ceny.",
+        "data": {
+          "tariff": "Opcja taryfy",
+          "hc_ranges": "Przedziały poza szczytem"
+        },
+        "data_description": {
+          "hc_ranges": "Oddzielone przecinkami, np. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Poza szczytem / szczyt lub Tempo (dni niebieskie, białe i czerwone)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Ceny, podatki i opłata stała",
+            "data": {
+              "price_hc": "Cena poza szczytem za kWh",
+              "price_hp": "Cena w szczycie za kWh",
+              "subscription": "Opłata stała (€ miesięcznie)",
+              "cspe": "CSPE / akcyza (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Cena odkupu energii słonecznej (€/kWh)",
+              "buyback_tax": "Podatek od sprzedaży (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Opcja Tempo",
+            "description": "Tylko dla opcji Tempo: 6 cen i kolor dnia. Z integracją RTE Tempo kolory są wykrywane automatycznie.",
+            "data": {
+              "price_bleu_hc": "Niebieski, poza szczytem (€/kWh)",
+              "price_bleu_hp": "Niebieski, szczyt (€/kWh)",
+              "price_blanc_hc": "Biały, poza szczytem (€/kWh)",
+              "price_blanc_hp": "Biały, szczyt (€/kWh)",
+              "price_rouge_hc": "Czerwony, poza szczytem (€/kWh)",
+              "price_rouge_hp": "Czerwony, szczyt (€/kWh)",
+              "tempo_today_entity": "Kolor dzisiaj",
+              "tempo_tomorrow_entity": "Kolor jutro"
+            },
+            "data_description": {
+              "tempo_today_entity": "Encja o stanie Niebieski / Biały / Czerwony (RTE Tempo, licznik…).",
+              "tempo_tomorrow_entity": "Opcjonalnie."
+            }
+          },
+          "liens": {
+            "name": "Istniejące pomocniki i licznik (opcjonalnie)",
+            "data": {
+              "price_hc": "Cena poza szczytem za kWh",
+              "price_hp": "Cena w szczycie za kWh",
+              "subscription": "Opłata stała (€ miesięcznie)",
+              "cspe": "CSPE / akcyza (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Cena odkupu energii słonecznej (€/kWh)",
+              "buyback_tax": "Podatek od sprzedaży (€/kWh)",
+              "linky_entity": "Licznik Linky: bieżący okres",
+              "linky_hc_values": "Wartości licznika oznaczające poza szczytem"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Nieczytelne przedziały."
+    },
+    "abort": {
+      "already_configured": "Już skonfigurowano."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "HOLM HP/HC, taryfy i opłata stała",
+        "description": "Ustaw godziny poza szczytem i ceny.",
+        "data": {
+          "tariff": "Opcja taryfy",
+          "hc_ranges": "Przedziały poza szczytem"
+        },
+        "data_description": {
+          "hc_ranges": "Oddzielone przecinkami, np. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Poza szczytem / szczyt lub Tempo (dni niebieskie, białe i czerwone)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Ceny, podatki i opłata stała",
+            "data": {
+              "price_hc": "Cena poza szczytem za kWh",
+              "price_hp": "Cena w szczycie za kWh",
+              "subscription": "Opłata stała (€ miesięcznie)",
+              "cspe": "CSPE / akcyza (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Cena odkupu energii słonecznej (€/kWh)",
+              "buyback_tax": "Podatek od sprzedaży (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Opcja Tempo",
+            "description": "Tylko dla opcji Tempo: 6 cen i kolor dnia. Z integracją RTE Tempo kolory są wykrywane automatycznie.",
+            "data": {
+              "price_bleu_hc": "Niebieski, poza szczytem (€/kWh)",
+              "price_bleu_hp": "Niebieski, szczyt (€/kWh)",
+              "price_blanc_hc": "Biały, poza szczytem (€/kWh)",
+              "price_blanc_hp": "Biały, szczyt (€/kWh)",
+              "price_rouge_hc": "Czerwony, poza szczytem (€/kWh)",
+              "price_rouge_hp": "Czerwony, szczyt (€/kWh)",
+              "tempo_today_entity": "Kolor dzisiaj",
+              "tempo_tomorrow_entity": "Kolor jutro"
+            },
+            "data_description": {
+              "tempo_today_entity": "Encja o stanie Niebieski / Biały / Czerwony (RTE Tempo, licznik…).",
+              "tempo_tomorrow_entity": "Opcjonalnie."
+            }
+          },
+          "liens": {
+            "name": "Istniejące pomocniki i licznik (opcjonalnie)",
+            "data": {
+              "price_hc": "Cena poza szczytem za kWh",
+              "price_hp": "Cena w szczycie za kWh",
+              "subscription": "Opłata stała (€ miesięcznie)",
+              "cspe": "CSPE / akcyza (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Cena odkupu energii słonecznej (€/kWh)",
+              "buyback_tax": "Podatek od sprzedaży (€/kWh)",
+              "linky_entity": "Licznik Linky: bieżący okres",
+              "linky_hc_values": "Wartości licznika oznaczające poza szczytem"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Nieczytelne przedziały."
+    }
+  },
+  "selector": {
+    "tariff": {
+      "options": {
+        "hchp": "Poza szczytem / szczyt",
+        "tempo": "Tempo (EDF)"
+      }
+    }
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HOLM HP/HC, tarieven en vastrecht",
+        "description": "Stel je daluren en prijzen in.",
+        "data": {
+          "tariff": "Tariefoptie",
+          "hc_ranges": "Daltijdvakken"
+        },
+        "data_description": {
+          "hc_ranges": "Gescheiden door komma's, bv. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Dal-/piekuren, of Tempo (blauwe, witte en rode dagen)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Prijzen, belastingen en vastrecht",
+            "data": {
+              "price_hc": "Dalprijs per kWh",
+              "price_hp": "Piekprijs per kWh",
+              "subscription": "Vastrecht (€ per maand)",
+              "cspe": "CSPE / accijns (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Terugleververgoeding zon (€/kWh)",
+              "buyback_tax": "Belasting op teruglevering (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Tempo-optie",
+            "description": "Alleen voor de Tempo-optie: de 6 prijzen en de dagkleur. Met de integratie RTE Tempo worden de kleuren automatisch gevonden.",
+            "data": {
+              "price_bleu_hc": "Blauw, dal (€/kWh)",
+              "price_bleu_hp": "Blauw, piek (€/kWh)",
+              "price_blanc_hc": "Wit, dal (€/kWh)",
+              "price_blanc_hp": "Wit, piek (€/kWh)",
+              "price_rouge_hc": "Rood, dal (€/kWh)",
+              "price_rouge_hp": "Rood, piek (€/kWh)",
+              "tempo_today_entity": "Kleur van vandaag",
+              "tempo_tomorrow_entity": "Kleur van morgen"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entiteit met de status Blauw / Wit / Rood (RTE Tempo, meter…).",
+              "tempo_tomorrow_entity": "Optioneel."
+            }
+          },
+          "liens": {
+            "name": "Bestaande helpers en meter (optioneel)",
+            "data": {
+              "price_hc": "Dalprijs per kWh",
+              "price_hp": "Piekprijs per kWh",
+              "subscription": "Vastrecht (€ per maand)",
+              "cspe": "CSPE / accijns (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Terugleververgoeding zon (€/kWh)",
+              "buyback_tax": "Belasting op teruglevering (€/kWh)",
+              "linky_entity": "Linky-meter: huidige periode",
+              "linky_hc_values": "Meterwaarden die dal betekenen"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Onleesbare tijdvakken."
+    },
+    "abort": {
+      "already_configured": "Al ingesteld."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "HOLM HP/HC, tarieven en vastrecht",
+        "description": "Stel je daluren en prijzen in.",
+        "data": {
+          "tariff": "Tariefoptie",
+          "hc_ranges": "Daltijdvakken"
+        },
+        "data_description": {
+          "hc_ranges": "Gescheiden door komma's, bv. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Dal-/piekuren, of Tempo (blauwe, witte en rode dagen)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Prijzen, belastingen en vastrecht",
+            "data": {
+              "price_hc": "Dalprijs per kWh",
+              "price_hp": "Piekprijs per kWh",
+              "subscription": "Vastrecht (€ per maand)",
+              "cspe": "CSPE / accijns (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Terugleververgoeding zon (€/kWh)",
+              "buyback_tax": "Belasting op teruglevering (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Tempo-optie",
+            "description": "Alleen voor de Tempo-optie: de 6 prijzen en de dagkleur. Met de integratie RTE Tempo worden de kleuren automatisch gevonden.",
+            "data": {
+              "price_bleu_hc": "Blauw, dal (€/kWh)",
+              "price_bleu_hp": "Blauw, piek (€/kWh)",
+              "price_blanc_hc": "Wit, dal (€/kWh)",
+              "price_blanc_hp": "Wit, piek (€/kWh)",
+              "price_rouge_hc": "Rood, dal (€/kWh)",
+              "price_rouge_hp": "Rood, piek (€/kWh)",
+              "tempo_today_entity": "Kleur van vandaag",
+              "tempo_tomorrow_entity": "Kleur van morgen"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entiteit met de status Blauw / Wit / Rood (RTE Tempo, meter…).",
+              "tempo_tomorrow_entity": "Optioneel."
+            }
+          },
+          "liens": {
+            "name": "Bestaande helpers en meter (optioneel)",
+            "data": {
+              "price_hc": "Dalprijs per kWh",
+              "price_hp": "Piekprijs per kWh",
+              "subscription": "Vastrecht (€ per maand)",
+              "cspe": "CSPE / accijns (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Terugleververgoeding zon (€/kWh)",
+              "buyback_tax": "Belasting op teruglevering (€/kWh)",
+              "linky_entity": "Linky-meter: huidige periode",
+              "linky_hc_values": "Meterwaarden die dal betekenen"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Onleesbare tijdvakken."
+    }
+  },
+  "selector": {
+    "tariff": {
+      "options": {
+        "hchp": "Dal- / piekuren",
+        "tempo": "Tempo (EDF)"
+      }
+    }
+  }
+}

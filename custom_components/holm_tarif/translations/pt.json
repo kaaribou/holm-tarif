@@ -1,0 +1,143 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HOLM HP/HC, tarifas e assinatura",
+        "description": "Defina as suas horas de vazio e os preços.",
+        "data": {
+          "tariff": "Opção tarifária",
+          "hc_ranges": "Intervalos de horas de vazio"
+        },
+        "data_description": {
+          "hc_ranges": "Separados por vírgulas, ex. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Horas de vazio / cheias, ou Tempo (dias azuis, brancos e vermelhos)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Preços, impostos e assinatura",
+            "data": {
+              "price_hc": "Preço de vazio por kWh",
+              "price_hp": "Preço de cheias por kWh",
+              "subscription": "Assinatura (€ por mês)",
+              "cspe": "CSPE / imposto especial (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Preço de venda solar (€/kWh)",
+              "buyback_tax": "Imposto sobre a venda (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Opção Tempo",
+            "description": "Só para a opção Tempo: os 6 preços e a cor do dia. Com a integração RTE Tempo, as cores são encontradas automaticamente.",
+            "data": {
+              "price_bleu_hc": "Azul, vazio (€/kWh)",
+              "price_bleu_hp": "Azul, cheias (€/kWh)",
+              "price_blanc_hc": "Branco, vazio (€/kWh)",
+              "price_blanc_hp": "Branco, cheias (€/kWh)",
+              "price_rouge_hc": "Vermelho, vazio (€/kWh)",
+              "price_rouge_hp": "Vermelho, cheias (€/kWh)",
+              "tempo_today_entity": "Cor de hoje",
+              "tempo_tomorrow_entity": "Cor de amanhã"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entidade cujo estado é Azul / Branco / Vermelho (RTE Tempo, contador…).",
+              "tempo_tomorrow_entity": "Opcional."
+            }
+          },
+          "liens": {
+            "name": "Auxiliares e contador existentes (opcional)",
+            "data": {
+              "price_hc": "Preço de vazio por kWh",
+              "price_hp": "Preço de cheias por kWh",
+              "subscription": "Assinatura (€ por mês)",
+              "cspe": "CSPE / imposto especial (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Preço de venda solar (€/kWh)",
+              "buyback_tax": "Imposto sobre a venda (€/kWh)",
+              "linky_entity": "Contador Linky: período atual",
+              "linky_hc_values": "Valores do contador que indicam vazio"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Intervalos ilegíveis."
+    },
+    "abort": {
+      "already_configured": "Já configurado."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "HOLM HP/HC, tarifas e assinatura",
+        "description": "Defina as suas horas de vazio e os preços.",
+        "data": {
+          "tariff": "Opção tarifária",
+          "hc_ranges": "Intervalos de horas de vazio"
+        },
+        "data_description": {
+          "hc_ranges": "Separados por vírgulas, ex. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Horas de vazio / cheias, ou Tempo (dias azuis, brancos e vermelhos)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Preços, impostos e assinatura",
+            "data": {
+              "price_hc": "Preço de vazio por kWh",
+              "price_hp": "Preço de cheias por kWh",
+              "subscription": "Assinatura (€ por mês)",
+              "cspe": "CSPE / imposto especial (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Preço de venda solar (€/kWh)",
+              "buyback_tax": "Imposto sobre a venda (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Opção Tempo",
+            "description": "Só para a opção Tempo: os 6 preços e a cor do dia. Com a integração RTE Tempo, as cores são encontradas automaticamente.",
+            "data": {
+              "price_bleu_hc": "Azul, vazio (€/kWh)",
+              "price_bleu_hp": "Azul, cheias (€/kWh)",
+              "price_blanc_hc": "Branco, vazio (€/kWh)",
+              "price_blanc_hp": "Branco, cheias (€/kWh)",
+              "price_rouge_hc": "Vermelho, vazio (€/kWh)",
+              "price_rouge_hp": "Vermelho, cheias (€/kWh)",
+              "tempo_today_entity": "Cor de hoje",
+              "tempo_tomorrow_entity": "Cor de amanhã"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entidade cujo estado é Azul / Branco / Vermelho (RTE Tempo, contador…).",
+              "tempo_tomorrow_entity": "Opcional."
+            }
+          },
+          "liens": {
+            "name": "Auxiliares e contador existentes (opcional)",
+            "data": {
+              "price_hc": "Preço de vazio por kWh",
+              "price_hp": "Preço de cheias por kWh",
+              "subscription": "Assinatura (€ por mês)",
+              "cspe": "CSPE / imposto especial (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Preço de venda solar (€/kWh)",
+              "buyback_tax": "Imposto sobre a venda (€/kWh)",
+              "linky_entity": "Contador Linky: período atual",
+              "linky_hc_values": "Valores do contador que indicam vazio"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Intervalos ilegíveis."
+    }
+  },
+  "selector": {
+    "tariff": {
+      "options": {
+        "hchp": "Horas de vazio / cheias",
+        "tempo": "Tempo (EDF)"
+      }
+    }
+  }
+}

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+- **8 langues** : traductions allemand, espagnol, italien, néerlandais, portugais et polonais ajoutées (configuration, options, entités, actions), en plus du français et de l'anglais. Carte HOLM HP/HC traduite elle aussi (éditeur compris), avec une nouvelle option `language` ; elle suit sinon la langue du profil Home Assistant (anglais si la langue n'est pas traduite).
+- README en anglais (`README.en.md`).
+
 ## 1.1.0
 - **Option Tempo (EDF)** ([#1](https://github.com/kaaribou/holm-tarif/issues/1)) : option tarifaire *Tempo* à côté de *Heures creuses / heures pleines*.
   - Couleur du jour et de demain : `sensor.tempo_couleur_aujourdhui` / `sensor.tempo_couleur_demain`, d'après l'intégration RTE Tempo (trouvée automatiquement) ou l'entité de votre choix ; dernière couleur connue conservée si la source est indisponible.

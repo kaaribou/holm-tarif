@@ -4,6 +4,8 @@
 ![Version](https://img.shields.io/github/v/release/kaaribou/holm-tarif)
 ![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2025.6%2B-03a9f4)
 
+🇫🇷 Français · [🇬🇧 English](README.en.md)
+
 **Heures creuses ou heures pleines ? Le bon tarif, la prochaine bascule et votre abonnement, au même endroit — sans modèle Jinja ni carte bricolée.**
 
 HOLM HP/HC sait à tout moment si vous êtes en **heures creuses** ou en **heures pleines**, d'après vos plages horaires (ou votre compteur Linky). Il en déduit le **tarif en cours**, annonce la **prochaine bascule** et regroupe vos **prix, taxes et abonnement**. Vos automatisations, le tableau Énergie et les autres cartes HOLM s'appuient sur la même référence.
@@ -24,6 +26,12 @@ HOLM HP/HC sait à tout moment si vous êtes en **heures creuses** ou en **heure
 | Fond coloré, partiel ou aux couleurs du thème | Les réglages dans la carte |
 |---|---|
 | ![Heures creuses et heures pleines](docs/images/hc-hp.png) | ![Réglages](docs/images/reglages.png) |
+
+
+### 🆕 Nouveautés de la 1.2.0
+
+- 🌍 **8 langues** : l'intégration (configuration, options, entités, actions) est traduite en français, anglais, allemand, espagnol, italien, néerlandais, portugais et polonais, selon la langue de Home Assistant. La carte **HOLM HP/HC** aussi, éditeur compris ; son option `language` permet d'imposer une langue.
+- 🇬🇧 README en anglais.
 
 ---
 
@@ -117,6 +125,7 @@ show_details: true        # tarifs et abonnement
 
 | Option | Description | Par défaut |
 |---|---|---|
+| `language` | Langue de la carte : `fr`, `en`, `de`, `es`, `it`, `nl`, `pt`, `pl` | celle du profil |
 | `entity` | Capteur « Heures creuses » de l'intégration | trouvé automatiquement |
 | `name` | Titre | Heures creuses / Heures pleines |
 | `show_details` | Afficher les tarifs, taxes et abonnement (modifiables) | `false` |

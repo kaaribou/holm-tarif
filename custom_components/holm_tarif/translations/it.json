@@ -1,0 +1,143 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HOLM HP/HC, tariffe e quota fissa",
+        "description": "Imposta le tue fasce fuori punta e i prezzi.",
+        "data": {
+          "tariff": "Opzione tariffaria",
+          "hc_ranges": "Fasce orarie fuori punta"
+        },
+        "data_description": {
+          "hc_ranges": "Separate da virgole, es. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Fuori punta / punta, oppure Tempo (giorni blu, bianchi e rossi)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Prezzi, tasse e quota fissa",
+            "data": {
+              "price_hc": "Prezzo fuori punta per kWh",
+              "price_hp": "Prezzo di punta per kWh",
+              "subscription": "Quota fissa (€ al mese)",
+              "cspe": "CSPE / accisa (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Prezzo di cessione solare (€/kWh)",
+              "buyback_tax": "Tassa sulla vendita (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Opzione Tempo",
+            "description": "Solo per l'opzione Tempo: i 6 prezzi e il colore del giorno. Con l'integrazione RTE Tempo, i colori vengono trovati automaticamente.",
+            "data": {
+              "price_bleu_hc": "Blu, fuori punta (€/kWh)",
+              "price_bleu_hp": "Blu, punta (€/kWh)",
+              "price_blanc_hc": "Bianco, fuori punta (€/kWh)",
+              "price_blanc_hp": "Bianco, punta (€/kWh)",
+              "price_rouge_hc": "Rosso, fuori punta (€/kWh)",
+              "price_rouge_hp": "Rosso, punta (€/kWh)",
+              "tempo_today_entity": "Colore di oggi",
+              "tempo_tomorrow_entity": "Colore di domani"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entità il cui stato è Blu / Bianco / Rosso (RTE Tempo, contatore…).",
+              "tempo_tomorrow_entity": "Facoltativo."
+            }
+          },
+          "liens": {
+            "name": "Helper e contatore esistenti (facoltativo)",
+            "data": {
+              "price_hc": "Prezzo fuori punta per kWh",
+              "price_hp": "Prezzo di punta per kWh",
+              "subscription": "Quota fissa (€ al mese)",
+              "cspe": "CSPE / accisa (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Prezzo di cessione solare (€/kWh)",
+              "buyback_tax": "Tassa sulla vendita (€/kWh)",
+              "linky_entity": "Contatore Linky: fascia attuale",
+              "linky_hc_values": "Valori del contatore che indicano fuori punta"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Fasce illeggibili."
+    },
+    "abort": {
+      "already_configured": "Già configurato."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "HOLM HP/HC, tariffe e quota fissa",
+        "description": "Imposta le tue fasce fuori punta e i prezzi.",
+        "data": {
+          "tariff": "Opzione tariffaria",
+          "hc_ranges": "Fasce orarie fuori punta"
+        },
+        "data_description": {
+          "hc_ranges": "Separate da virgole, es. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Fuori punta / punta, oppure Tempo (giorni blu, bianchi e rossi)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Prezzi, tasse e quota fissa",
+            "data": {
+              "price_hc": "Prezzo fuori punta per kWh",
+              "price_hp": "Prezzo di punta per kWh",
+              "subscription": "Quota fissa (€ al mese)",
+              "cspe": "CSPE / accisa (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Prezzo di cessione solare (€/kWh)",
+              "buyback_tax": "Tassa sulla vendita (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Opzione Tempo",
+            "description": "Solo per l'opzione Tempo: i 6 prezzi e il colore del giorno. Con l'integrazione RTE Tempo, i colori vengono trovati automaticamente.",
+            "data": {
+              "price_bleu_hc": "Blu, fuori punta (€/kWh)",
+              "price_bleu_hp": "Blu, punta (€/kWh)",
+              "price_blanc_hc": "Bianco, fuori punta (€/kWh)",
+              "price_blanc_hp": "Bianco, punta (€/kWh)",
+              "price_rouge_hc": "Rosso, fuori punta (€/kWh)",
+              "price_rouge_hp": "Rosso, punta (€/kWh)",
+              "tempo_today_entity": "Colore di oggi",
+              "tempo_tomorrow_entity": "Colore di domani"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entità il cui stato è Blu / Bianco / Rosso (RTE Tempo, contatore…).",
+              "tempo_tomorrow_entity": "Facoltativo."
+            }
+          },
+          "liens": {
+            "name": "Helper e contatore esistenti (facoltativo)",
+            "data": {
+              "price_hc": "Prezzo fuori punta per kWh",
+              "price_hp": "Prezzo di punta per kWh",
+              "subscription": "Quota fissa (€ al mese)",
+              "cspe": "CSPE / accisa (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Prezzo di cessione solare (€/kWh)",
+              "buyback_tax": "Tassa sulla vendita (€/kWh)",
+              "linky_entity": "Contatore Linky: fascia attuale",
+              "linky_hc_values": "Valori del contatore che indicano fuori punta"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Fasce illeggibili."
+    }
+  },
+  "selector": {
+    "tariff": {
+      "options": {
+        "hchp": "Fuori punta / punta",
+        "tempo": "Tempo (EDF)"
+      }
+    }
+  }
+}

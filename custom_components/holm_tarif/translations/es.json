@@ -1,0 +1,143 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HOLM HP/HC, tarifas y término fijo",
+        "description": "Define tus horas valle y tus precios.",
+        "data": {
+          "tariff": "Opción de tarifa",
+          "hc_ranges": "Franjas de horas valle"
+        },
+        "data_description": {
+          "hc_ranges": "Separadas por comas, p. ej. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Horas valle / punta, o Tempo (días azules, blancos y rojos)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Precios, impuestos y término fijo",
+            "data": {
+              "price_hc": "Precio valle por kWh",
+              "price_hp": "Precio punta por kWh",
+              "subscription": "Término fijo (€ al mes)",
+              "cspe": "CSPE / impuesto especial (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Precio de venta solar (€/kWh)",
+              "buyback_tax": "Impuesto sobre la venta (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Opción Tempo",
+            "description": "Solo para la opción Tempo: los 6 precios y el color del día. Con la integración RTE Tempo, los colores se detectan automáticamente.",
+            "data": {
+              "price_bleu_hc": "Azul, valle (€/kWh)",
+              "price_bleu_hp": "Azul, punta (€/kWh)",
+              "price_blanc_hc": "Blanco, valle (€/kWh)",
+              "price_blanc_hp": "Blanco, punta (€/kWh)",
+              "price_rouge_hc": "Rojo, valle (€/kWh)",
+              "price_rouge_hp": "Rojo, punta (€/kWh)",
+              "tempo_today_entity": "Color de hoy",
+              "tempo_tomorrow_entity": "Color de mañana"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entidad cuyo estado es Azul / Blanco / Rojo (RTE Tempo, contador…).",
+              "tempo_tomorrow_entity": "Opcional."
+            }
+          },
+          "liens": {
+            "name": "Ayudantes y contador existentes (opcional)",
+            "data": {
+              "price_hc": "Precio valle por kWh",
+              "price_hp": "Precio punta por kWh",
+              "subscription": "Término fijo (€ al mes)",
+              "cspe": "CSPE / impuesto especial (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Precio de venta solar (€/kWh)",
+              "buyback_tax": "Impuesto sobre la venta (€/kWh)",
+              "linky_entity": "Contador Linky: periodo actual",
+              "linky_hc_values": "Valores del contador que indican valle"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Franjas ilegibles."
+    },
+    "abort": {
+      "already_configured": "Ya configurado."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "HOLM HP/HC, tarifas y término fijo",
+        "description": "Define tus horas valle y tus precios.",
+        "data": {
+          "tariff": "Opción de tarifa",
+          "hc_ranges": "Franjas de horas valle"
+        },
+        "data_description": {
+          "hc_ranges": "Separadas por comas, p. ej. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Horas valle / punta, o Tempo (días azules, blancos y rojos)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Precios, impuestos y término fijo",
+            "data": {
+              "price_hc": "Precio valle por kWh",
+              "price_hp": "Precio punta por kWh",
+              "subscription": "Término fijo (€ al mes)",
+              "cspe": "CSPE / impuesto especial (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Precio de venta solar (€/kWh)",
+              "buyback_tax": "Impuesto sobre la venta (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Opción Tempo",
+            "description": "Solo para la opción Tempo: los 6 precios y el color del día. Con la integración RTE Tempo, los colores se detectan automáticamente.",
+            "data": {
+              "price_bleu_hc": "Azul, valle (€/kWh)",
+              "price_bleu_hp": "Azul, punta (€/kWh)",
+              "price_blanc_hc": "Blanco, valle (€/kWh)",
+              "price_blanc_hp": "Blanco, punta (€/kWh)",
+              "price_rouge_hc": "Rojo, valle (€/kWh)",
+              "price_rouge_hp": "Rojo, punta (€/kWh)",
+              "tempo_today_entity": "Color de hoy",
+              "tempo_tomorrow_entity": "Color de mañana"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entidad cuyo estado es Azul / Blanco / Rojo (RTE Tempo, contador…).",
+              "tempo_tomorrow_entity": "Opcional."
+            }
+          },
+          "liens": {
+            "name": "Ayudantes y contador existentes (opcional)",
+            "data": {
+              "price_hc": "Precio valle por kWh",
+              "price_hp": "Precio punta por kWh",
+              "subscription": "Término fijo (€ al mes)",
+              "cspe": "CSPE / impuesto especial (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Precio de venta solar (€/kWh)",
+              "buyback_tax": "Impuesto sobre la venta (€/kWh)",
+              "linky_entity": "Contador Linky: periodo actual",
+              "linky_hc_values": "Valores del contador que indican valle"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Franjas ilegibles."
+    }
+  },
+  "selector": {
+    "tariff": {
+      "options": {
+        "hchp": "Horas valle / punta",
+        "tempo": "Tempo (EDF)"
+      }
+    }
+  }
+}

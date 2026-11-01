@@ -1,0 +1,143 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HOLM HP/HC, Tarife und Grundgebühr",
+        "description": "Legen Sie Ihre Niedertarifzeiten und Preise fest.",
+        "data": {
+          "tariff": "Tarifoption",
+          "hc_ranges": "Niedertarif-Zeitfenster"
+        },
+        "data_description": {
+          "hc_ranges": "Durch Komma getrennt, z. B. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Nieder-/Hochtarif oder Tempo (blaue, weiße und rote Tage)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Preise, Steuern und Grundgebühr",
+            "data": {
+              "price_hc": "Niedertarifpreis pro kWh",
+              "price_hp": "Hochtarifpreis pro kWh",
+              "subscription": "Grundgebühr (€ pro Monat)",
+              "cspe": "CSPE / Verbrauchsteuer (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Einspeisevergütung Solar (€/kWh)",
+              "buyback_tax": "Steuer auf Einspeisung (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Tempo-Option",
+            "description": "Nur für die Tempo-Option: die 6 Preise und die Tagesfarbe. Mit der Integration RTE Tempo werden die Farben automatisch gefunden.",
+            "data": {
+              "price_bleu_hc": "Blau, Niedertarif (€/kWh)",
+              "price_bleu_hp": "Blau, Hochtarif (€/kWh)",
+              "price_blanc_hc": "Weiß, Niedertarif (€/kWh)",
+              "price_blanc_hp": "Weiß, Hochtarif (€/kWh)",
+              "price_rouge_hc": "Rot, Niedertarif (€/kWh)",
+              "price_rouge_hp": "Rot, Hochtarif (€/kWh)",
+              "tempo_today_entity": "Farbe heute",
+              "tempo_tomorrow_entity": "Farbe morgen"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entität mit dem Zustand Blau / Weiß / Rot (RTE Tempo, Zähler…).",
+              "tempo_tomorrow_entity": "Optional."
+            }
+          },
+          "liens": {
+            "name": "Vorhandene Helfer und Zähler (optional)",
+            "data": {
+              "price_hc": "Niedertarifpreis pro kWh",
+              "price_hp": "Hochtarifpreis pro kWh",
+              "subscription": "Grundgebühr (€ pro Monat)",
+              "cspe": "CSPE / Verbrauchsteuer (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Einspeisevergütung Solar (€/kWh)",
+              "buyback_tax": "Steuer auf Einspeisung (€/kWh)",
+              "linky_entity": "Linky-Zähler: aktuelle Periode",
+              "linky_hc_values": "Zählerwerte für Niedertarif"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Unlesbare Zeitfenster."
+    },
+    "abort": {
+      "already_configured": "Bereits eingerichtet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "HOLM HP/HC, Tarife und Grundgebühr",
+        "description": "Legen Sie Ihre Niedertarifzeiten und Preise fest.",
+        "data": {
+          "tariff": "Tarifoption",
+          "hc_ranges": "Niedertarif-Zeitfenster"
+        },
+        "data_description": {
+          "hc_ranges": "Durch Komma getrennt, z. B. 14:58-16:58, 23:28-05:28.",
+          "tariff": "Nieder-/Hochtarif oder Tempo (blaue, weiße und rote Tage)."
+        },
+        "sections": {
+          "prix": {
+            "name": "Preise, Steuern und Grundgebühr",
+            "data": {
+              "price_hc": "Niedertarifpreis pro kWh",
+              "price_hp": "Hochtarifpreis pro kWh",
+              "subscription": "Grundgebühr (€ pro Monat)",
+              "cspe": "CSPE / Verbrauchsteuer (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Einspeisevergütung Solar (€/kWh)",
+              "buyback_tax": "Steuer auf Einspeisung (€/kWh)"
+            }
+          },
+          "tempo": {
+            "name": "Tempo-Option",
+            "description": "Nur für die Tempo-Option: die 6 Preise und die Tagesfarbe. Mit der Integration RTE Tempo werden die Farben automatisch gefunden.",
+            "data": {
+              "price_bleu_hc": "Blau, Niedertarif (€/kWh)",
+              "price_bleu_hp": "Blau, Hochtarif (€/kWh)",
+              "price_blanc_hc": "Weiß, Niedertarif (€/kWh)",
+              "price_blanc_hp": "Weiß, Hochtarif (€/kWh)",
+              "price_rouge_hc": "Rot, Niedertarif (€/kWh)",
+              "price_rouge_hp": "Rot, Hochtarif (€/kWh)",
+              "tempo_today_entity": "Farbe heute",
+              "tempo_tomorrow_entity": "Farbe morgen"
+            },
+            "data_description": {
+              "tempo_today_entity": "Entität mit dem Zustand Blau / Weiß / Rot (RTE Tempo, Zähler…).",
+              "tempo_tomorrow_entity": "Optional."
+            }
+          },
+          "liens": {
+            "name": "Vorhandene Helfer und Zähler (optional)",
+            "data": {
+              "price_hc": "Niedertarifpreis pro kWh",
+              "price_hp": "Hochtarifpreis pro kWh",
+              "subscription": "Grundgebühr (€ pro Monat)",
+              "cspe": "CSPE / Verbrauchsteuer (€/kWh)",
+              "tcfe": "TCFE (€/kWh)",
+              "buyback": "Einspeisevergütung Solar (€/kWh)",
+              "buyback_tax": "Steuer auf Einspeisung (€/kWh)",
+              "linky_entity": "Linky-Zähler: aktuelle Periode",
+              "linky_hc_values": "Zählerwerte für Niedertarif"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "bad_ranges": "Unlesbare Zeitfenster."
+    }
+  },
+  "selector": {
+    "tariff": {
+      "options": {
+        "hchp": "Nieder- / Hochtarif",
+        "tempo": "Tempo (EDF)"
+      }
+    }
+  }
+}
