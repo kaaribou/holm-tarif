@@ -9,8 +9,8 @@
           "hc_ranges": "Intervalos de horas de vazio"
         },
         "data_description": {
-          "hc_ranges": "Separados por vírgulas, ex. 14:58-16:58, 23:28-05:28.",
-          "tariff": "Horas de vazio / cheias, ou Tempo (dias azuis, brancos e vermelhos)."
+          "hc_ranges": "Separadas por vírgulas, ex. «14:58-16:58, 23:28-05:28». Um intervalo pode passar a meia-noite. Ignoradas com a opção Base.",
+          "tariff": "Horas de vazio / cheias, Tempo (dias Azuis, Brancos e Vermelhos) ou Base (um único preço todo o dia)."
         },
         "sections": {
           "prix": {
@@ -18,6 +18,7 @@
             "data": {
               "price_hc": "Preço de vazio por kWh",
               "price_hp": "Preço de cheias por kWh",
+              "price_base": "Preço do kWh (opção Base)",
               "subscription": "Assinatura (€ por mês)",
               "cspe": "CSPE / imposto especial (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -48,6 +49,7 @@
             "data": {
               "price_hc": "Preço de vazio por kWh",
               "price_hp": "Preço de cheias por kWh",
+              "price_base": "Preço do kWh (opção Base)",
               "subscription": "Assinatura (€ por mês)",
               "cspe": "CSPE / imposto especial (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -77,8 +79,8 @@
           "hc_ranges": "Intervalos de horas de vazio"
         },
         "data_description": {
-          "hc_ranges": "Separados por vírgulas, ex. 14:58-16:58, 23:28-05:28.",
-          "tariff": "Horas de vazio / cheias, ou Tempo (dias azuis, brancos e vermelhos)."
+          "hc_ranges": "Separadas por vírgulas, ex. «14:58-16:58, 23:28-05:28». Um intervalo pode passar a meia-noite. Ignoradas com a opção Base.",
+          "tariff": "Horas de vazio / cheias, Tempo (dias Azuis, Brancos e Vermelhos) ou Base (um único preço todo o dia)."
         },
         "sections": {
           "prix": {
@@ -86,6 +88,7 @@
             "data": {
               "price_hc": "Preço de vazio por kWh",
               "price_hp": "Preço de cheias por kWh",
+              "price_base": "Preço do kWh (opção Base)",
               "subscription": "Assinatura (€ por mês)",
               "cspe": "CSPE / imposto especial (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -116,6 +119,7 @@
             "data": {
               "price_hc": "Preço de vazio por kWh",
               "price_hp": "Preço de cheias por kWh",
+              "price_base": "Preço do kWh (opção Base)",
               "subscription": "Assinatura (€ por mês)",
               "cspe": "CSPE / imposto especial (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -136,7 +140,8 @@
     "tariff": {
       "options": {
         "hchp": "Horas de vazio / cheias",
-        "tempo": "Tempo (EDF)"
+        "tempo": "Tempo (EDF)",
+        "base": "Base (preço único)"
       }
     }
   }

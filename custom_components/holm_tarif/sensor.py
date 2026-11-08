@@ -9,7 +9,10 @@ from .entity import TarifEntity
 
 async def async_setup_entry(hass, entry, async_add_entities):
     m = entry.runtime_data
-    ents = [ModeSensor(entry, m), PriceSensor(entry, m), NextTextSensor(entry, m), NextTimeSensor(entry, m), SubscriptionDaySensor(entry, m)]
+    if m.base:      # option Base : pas d'heures creuses, donc ni mode heure ni prochaine bascule
+        ents = [PriceSensor(entry, m), SubscriptionDaySensor(entry, m)]
+    else:
+        ents = [ModeSensor(entry, m), PriceSensor(entry, m), NextTextSensor(entry, m), NextTimeSensor(entry, m), SubscriptionDaySensor(entry, m)]
     if m.tempo:
         ents += [TempoColorSensor(entry, m, False), TempoColorSensor(entry, m, True)]
     async_add_entities(ents)
@@ -49,13 +52,13 @@ class PriceSensor(TarifEntity, SensorEntity):
 
     @property
     def icon(self):
-        return "mdi:cash-clock"
+        return "mdi:cash" if self.manager.base else "mdi:cash-clock"
 
     @property
     def extra_state_attributes(self):
         s = self.manager.state
         tempo = {"couleur": TEMPO_LABELS.get(s.get("tempo"), TEMPO_UNKNOWN)} if self.manager.tempo else {}
-        return {"periode": s.get("period"), **tempo, **(s.get("prices") or {}),
+        return {"option": self.manager.tariff, "periode": s.get("period"), **tempo, **(s.get("prices") or {}),
                 "reglages": {PRICE_DEFS[k][4]: f"number.{PRICE_DEFS[k][1]}" for k in PRICE_DEFS},
                 "entrees_reliees": {PRICE_DEFS[k][4]: v for k, v in self.manager.entities.items() if v}}
 

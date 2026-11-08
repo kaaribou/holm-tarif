@@ -9,8 +9,8 @@
           "hc_ranges": "Franjas de horas valle"
         },
         "data_description": {
-          "hc_ranges": "Separadas por comas, p. ej. 14:58-16:58, 23:28-05:28.",
-          "tariff": "Horas valle / punta, o Tempo (días azules, blancos y rojos)."
+          "hc_ranges": "Separadas por comas, p. ej. «14:58-16:58, 23:28-05:28». Una franja puede pasar la medianoche. Se ignoran con la opción Base.",
+          "tariff": "Horas valle / punta, Tempo (días Azules, Blancos y Rojos) o Base (un solo precio todo el día)."
         },
         "sections": {
           "prix": {
@@ -18,6 +18,7 @@
             "data": {
               "price_hc": "Precio valle por kWh",
               "price_hp": "Precio punta por kWh",
+              "price_base": "Precio del kWh (opción Base)",
               "subscription": "Término fijo (€ al mes)",
               "cspe": "CSPE / impuesto especial (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -48,6 +49,7 @@
             "data": {
               "price_hc": "Precio valle por kWh",
               "price_hp": "Precio punta por kWh",
+              "price_base": "Precio del kWh (opción Base)",
               "subscription": "Término fijo (€ al mes)",
               "cspe": "CSPE / impuesto especial (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -77,8 +79,8 @@
           "hc_ranges": "Franjas de horas valle"
         },
         "data_description": {
-          "hc_ranges": "Separadas por comas, p. ej. 14:58-16:58, 23:28-05:28.",
-          "tariff": "Horas valle / punta, o Tempo (días azules, blancos y rojos)."
+          "hc_ranges": "Separadas por comas, p. ej. «14:58-16:58, 23:28-05:28». Una franja puede pasar la medianoche. Se ignoran con la opción Base.",
+          "tariff": "Horas valle / punta, Tempo (días Azules, Blancos y Rojos) o Base (un solo precio todo el día)."
         },
         "sections": {
           "prix": {
@@ -86,6 +88,7 @@
             "data": {
               "price_hc": "Precio valle por kWh",
               "price_hp": "Precio punta por kWh",
+              "price_base": "Precio del kWh (opción Base)",
               "subscription": "Término fijo (€ al mes)",
               "cspe": "CSPE / impuesto especial (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -116,6 +119,7 @@
             "data": {
               "price_hc": "Precio valle por kWh",
               "price_hp": "Precio punta por kWh",
+              "price_base": "Precio del kWh (opción Base)",
               "subscription": "Término fijo (€ al mes)",
               "cspe": "CSPE / impuesto especial (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -136,7 +140,8 @@
     "tariff": {
       "options": {
         "hchp": "Horas valle / punta",
-        "tempo": "Tempo (EDF)"
+        "tempo": "Tempo (EDF)",
+        "base": "Base (precio único)"
       }
     }
   }

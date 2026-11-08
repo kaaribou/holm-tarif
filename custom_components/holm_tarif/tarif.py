@@ -12,9 +12,9 @@ from homeassistant.helpers.storage import Store
 from homeassistant.helpers.event import async_track_point_in_time, async_track_state_change_event, async_track_time_change
 from homeassistant.util import dt as dt_util
 
-from .const import (ALL_KEYS, CONF_LINKY, CONF_LINKY_HC, CONF_PRICE_HC, CONF_PRICE_HP, CONF_RANGES, CONF_SUBSCRIPTION,
+from .const import (ALL_KEYS, BASE_LABEL, CONF_LINKY, CONF_PRICE_BASE, CONF_LINKY_HC, CONF_PRICE_HC, CONF_PRICE_HP, CONF_RANGES, CONF_SUBSCRIPTION,
                     CONF_TARIFF, CONF_TEMPO_TODAY, CONF_TEMPO_TOMORROW, CONF_VALUES, DEFAULT_LINKY_HC, DEFAULT_RANGES,
-                    EVENT_CHANGE, HC_LABEL, HP_LABEL, PRICE_DEFS, PRICE_KEYS, STORE_KEY, TARIFF_TEMPO, TEMPO_KEYS,
+                    EVENT_CHANGE, HC_LABEL, HP_LABEL, PRICE_DEFS, PRICE_KEYS, STORE_KEY, TARIFF_BASE, TARIFF_HCHP, TARIFF_TEMPO, TARIFFS, TEMPO_KEYS,
                     TEMPO_LABELS)
 from .schedule import format_ranges, is_hc, next_change, parse_ranges
 
@@ -72,7 +72,9 @@ class TarifManager:
         # prix reliés à une entrée existante (input_number…) : l'entrée fait foi, l'intégration l'écrit aussi
         self.entities = {k: options.get(k) or None for k in PRICE_KEYS}
         self.values: dict = {k: v for k, v in (options.get(CONF_VALUES) or {}).items() if _num(v) is not None}
-        self.tempo = options.get(CONF_TARIFF) == TARIFF_TEMPO
+        self.tariff = options.get(CONF_TARIFF) if options.get(CONF_TARIFF) in TARIFFS else TARIFF_HCHP
+        self.tempo = self.tariff == TARIFF_TEMPO
+        self.base = self.tariff == TARIFF_BASE      # prix unique toute la journée : pas d'heures creuses
         self.tempo_today = options.get(CONF_TEMPO_TODAY) or None
         self.tempo_tomorrow = options.get(CONF_TEMPO_TOMORROW) or None
         self._last_color: str | None = None
@@ -151,7 +153,10 @@ class TarifManager:
         self.update(fire=False)
 
     def active_keys(self) -> tuple:
-        return PRICE_KEYS + TEMPO_KEYS if self.tempo else PRICE_KEYS
+        if self.base:
+            return tuple(k for k in PRICE_KEYS if k not in (CONF_PRICE_HC, CONF_PRICE_HP))
+        keys = tuple(k for k in PRICE_KEYS if k != CONF_PRICE_BASE)
+        return keys + TEMPO_KEYS if self.tempo else keys
 
     def prices(self) -> dict:
         return {PRICE_DEFS[k][4]: self.value(k) for k in self.active_keys()}
@@ -185,6 +190,17 @@ class TarifManager:
         return any(s == v or (len(v) > 2 and v in s) for v in self.linky_values)
 
     # ---- calcul ----
+    def _update_base(self) -> None:
+        """Option Base : un seul prix toute la journée, ni heures creuses ni bascule."""
+        sub = self.value(CONF_SUBSCRIPTION)
+        self.state = {"hc": None, "period": BASE_LABEL, "source": "base", "price": self.value(CONF_PRICE_BASE),
+                      "next": None, "next_hc": None, "next_label": None, "minutes": None, "text": None, "at": None,
+                      "ranges": None, "prices": self.prices(),
+                      "subscription_day": round(sub * 12 / 365, 4) if sub is not None else None,
+                      "tempo": None, "tempo_tomorrow": None, "tempo_source": None}
+        for cb in list(self._listeners):
+            cb()
+
     def _sync_links(self) -> None:
         """Garde une copie des prix lus dans les entrées reliées (utile si l'entrée disparaît un jour)."""
         changed = False
@@ -200,6 +216,9 @@ class TarifManager:
     @callback
     def update(self, fire: bool = True) -> None:
         self._sync_links()
+        if self.base:
+            self._update_base()
+            return
         now = dt_util.now()
         sched = is_hc(now, self.ranges)
         lk = self.linky_hc()

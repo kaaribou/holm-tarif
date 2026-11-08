@@ -16,6 +16,7 @@ HOLM HP/HC (*heures pleines / heures creuses*: peak / off-peak hours, as in Fren
 
 - 🌗 **Off-peak ranges** in plain text: `14:58-16:58, 23:28-05:28` — as many ranges as needed, including across midnight, DST changes included.
 - 🔵⚪🔴 **Tempo option (EDF, France)**: today's and tomorrow's colour (found automatically with RTE Tempo), 6 prices, and the current price based on colour and period.
+- 💡 **Base option (single price)**: one kWh price all day, no off-peak hours — with subscription and taxes as usual.
 - 📟 **Optional Linky meter**: if your meter reports the current period, it takes priority over the schedule.
 - 💶 **Prices, taxes and subscription held by the integration**: entered at setup, then editable in Home Assistant or **from the card**. Nothing to create beforehand.
 - 🔗 **Existing helpers linked**: already had your `input_number`s (Energy dashboard, cards)? They are detected and kept in sync both ways.
@@ -30,10 +31,14 @@ HOLM HP/HC (*heures pleines / heures creuses*: peak / off-peak hours, as in Fren
 
 *Screenshots in French — the card follows the language of your Home Assistant profile.*
 
-### 🆕 What's new in 1.2.0
+### 🆕 What's new in 1.3.0
 
-- 🌍 **8 languages**: the integration (setup, options, entities, actions) is translated into English, French, German, Spanish, Italian, Dutch, Portuguese and Polish, following the language of Home Assistant. The **HOLM HP/HC** card too, editor included; its `language` option lets you force a language.
-- 🇬🇧 English README.
+- 💡 **Base option (single price)**: a third tariff option, next to *Off-peak / peak hours* and *Tempo*. One kWh price (`number.tarif_prix_base`), given by `sensor.tarif_actuel` at any time; the off-peak-only entities are removed. See [Base option](#base-option-single-price).
+- 🎨 **HOLM HP/HC card with Base**: "Base rate", the kWh price and "Same price all day", in its own colour (`colors.base`); the settings no longer show off-peak ranges.
+- 🔗 `sensor.tarif_actuel` tells the chosen option (`option` attribute: `hchp`, `tempo` or `base`). The [HOLM Ecojoko Card](https://github.com/kaaribou/holm-ecojoko-card) 1.5.0 uses it to take your prices automatically, Base included.
+- If you don't change the option, nothing changes.
+
+![The HOLM HP/HC card with Base](docs/images/base.png)
 
 ---
 
@@ -52,9 +57,9 @@ Copy `custom_components/holm_tarif` into the `custom_components` folder of your 
 
 **Settings → Devices & services → Add integration → HOLM HP/HC.**
 
-1. **Tariff option**: *Off-peak / peak hours*, or *Tempo (EDF)*.
-2. **Off-peak ranges**: `14:58-16:58, 23:28-05:28` (a range can cross midnight).
-3. **Prices, taxes and subscription**: off-peak and peak kWh prices, monthly subscription, CSPE / excise, TCFE, surplus buy-back price and tax. Everything is optional except what you need.
+1. **Tariff option**: *Off-peak / peak hours*, *Tempo (EDF)* or *Base (single price)*.
+2. **Off-peak ranges**: `14:58-16:58, 23:28-05:28` (a range can cross midnight); ignored with Base.
+3. **Prices, taxes and subscription**: off-peak and peak kWh prices (or the Base kWh price), monthly subscription, CSPE / excise, TCFE, surplus buy-back price and tax. Everything is optional except what you need.
 4. **Tempo option** (if chosen): the 6 prices and the entity giving today's (and tomorrow's) colour — see [Tempo option](#tempo-option).
 5. **Existing helpers and meter** (optional):
    - if you already have price helpers (`input_number`) used by the Energy dashboard or your cards, **link them**: they are detected automatically, and every price change updates them (and vice versa);
@@ -68,7 +73,7 @@ Everything can then be changed in **Configure**, or straight from the card (⚙ 
 |---|---|
 | `binary_sensor.heures_creuses` | On during off-peak hours — the reference for your automations |
 | `sensor.mode_heure` | `Heures Creuses` / `Heures Pleines` (off-peak / peak) |
-| `sensor.tarif_actuel` | Current kWh price (€/kWh), with all prices as attributes |
+| `sensor.tarif_actuel` | Current kWh price (€/kWh), with all prices as attributes and the tariff option (`option`) |
 | `sensor.prochain_changement_de_mode` | “Heures Pleines dans 1h37m” (peak hours in 1h37m) |
 | `sensor.prochaine_bascule` | Date and time of the next switch |
 | `sensor.abonnement_par_jour` | Monthly subscription per day (€) |
@@ -113,6 +118,26 @@ The HOLM HP/HC card shows today's and tomorrow's colour, takes the day colour (`
 
 ![The HOLM HP/HC card with Tempo](docs/images/tempo.png)
 
+## Base option (single price)
+
+With the **Base (single price)** tariff option, a kWh costs the same at any time (EDF's Base option, flat-rate offers):
+
+- **One price**: `number.tarif_prix_base`, editable like the others; it can also be linked to an existing helper (*Existing helpers* section).
+- **`sensor.tarif_actuel`** always gives this price (attributes `option: base`, `periode: Base`, `prix_base`, plus taxes and subscription): the Energy dashboard counts right.
+- **`sensor.abonnement_par_jour`**, the subscription, taxes and surplus buy-back stay available.
+- **No off-peak hours**: `binary_sensor.heures_creuses`, `sensor.mode_heure`, `sensor.prochain_changement_de_mode`, `sensor.prochaine_bascule` and the off-peak / peak prices are not created (they are removed when switching from another option to Base), and no `holm_tarif_changement` event is sent. Your off-peak / peak amounts are kept: switching back brings everything back.
+
+| Entity | Value |
+|---|---|
+| `sensor.tarif_actuel` | The Base kWh price (€/kWh) |
+| `sensor.abonnement_par_jour` | Monthly subscription per day (€) |
+| `number.tarif_prix_base` | Base kWh price (editable) |
+| `number.tarif_abonnement`, `number.tarif_cspe`, `number.tarif_tcfe`, `number.tarif_prix_rachat`, `number.tarif_taxe_revente` | As with off-peak / peak |
+
+The HOLM HP/HC card then follows `sensor.tarif_actuel`: lightning icon, "Base rate", the kWh price and "Same price all day", in the `colors.base` colour (blue by default). With `show_details`, the **Price per kWh** row is highlighted, followed by subscription and taxes; its ⚙ settings only show prices, taxes and subscription.
+
+> ⚠️ If your automations use `binary_sensor.heures_creuses`, review them before switching to Base: this sensor doesn't exist with this option.
+
 ### Already had your own template sensors?
 
 If you used template sensors named **Mode heure**, **Tarif actuel** or **Prochain changement de mode**, remove them from your configuration and restart **before** adding the integration: it then takes the same entity names, and their **history continues**. Cards using them keep working unchanged.
@@ -130,13 +155,13 @@ show_details: true        # prices and subscription
 | Option | Description | Default |
 |---|---|---|
 | `language` | Card language: `fr`, `en`, `de`, `es`, `it`, `nl`, `pt`, `pl` | the profile's |
-| `entity` | The integration's off-peak sensor | found automatically |
-| `name` | Title | Off-peak hours / Peak hours |
+| `entity` | The integration's off-peak sensor (or "Tarif actuel" with Base) | found automatically |
+| `name` | Title | Off-peak hours / Peak hours (Base rate with Base) |
 | `show_details` | Show prices, taxes and subscription (editable) | `false` |
 | `show_progress` | Progress bar of the current period | `true` |
-| `background` | Coloured background: `always`, `hc` (off-peak only), `hp` (peak only), `never` (theme background) | `always` |
+| `background` | Coloured background: `always`, `hc` (off-peak only), `hp` (peak only), `never` (theme background); with Base, any value but `never` colours the card | `always` |
 | `show_settings` | ⚙ **Settings** button (administrators only) | `true` |
-| `colors` | `hc` and `hp`, and `bleu` / `blanc` / `rouge` for Tempo | green / orange |
+| `colors` | `hc` and `hp`, `base` for the Base option, and `bleu` / `blanc` / `rouge` for Tempo | green / orange / blue |
 | `color_mode` | Tempo: card colour from the day (`tempo`) or the period (`period`) | `tempo` |
 
 The visual editor is available. Tapping the card opens the period details.
@@ -146,7 +171,7 @@ The visual editor is available. Tapping the card opens the period details.
 ## With the other HOLM projects
 
 - **HOLM Lektrico**: choose `binary_sensor.heures_creuses` as the off-peak source (value `on`).
-- **HOLM Ecojoko Card** and energy cards: they use the same price helpers and `sensor.tarif_actuel`. The Tempo option of HOLM Ecojoko Card also finds `sensor.tempo_couleur_aujourdhui` and `sensor.tempo_couleur_demain`.
+- **HOLM Ecojoko Card** and energy cards: they use the same price helpers and `sensor.tarif_actuel`. Since version 1.5.0, HOLM Ecojoko Card **takes the integration's prices automatically** when its price fields are empty (off-peak / peak, Tempo, Base and buy-back price). Its Tempo option also finds `sensor.tempo_couleur_aujourdhui` and `sensor.tempo_couleur_demain`.
 
 ## FAQ
 

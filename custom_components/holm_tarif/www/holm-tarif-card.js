@@ -6,6 +6,12 @@
   const LANG_NAMES = { fr: "Français", en: "English", de: "Deutsch", es: "Español", it: "Italiano", nl: "Nederlands", pt: "Português", pl: "Polski" };
   const LOCALES = { fr: "fr-FR", en: "en-GB", de: "de-DE", es: "es-ES", it: "it-IT", nl: "nl-NL", pt: "pt-PT", pl: "pl-PL" };
   const I18N = {
+    "Tarif Base": ["Base rate", "Basistarif", "Tarifa Base", "Tariffa Base", "Basistarief", "Tarifa Base", "Taryfa Base"],
+    "Prix unique toute la journée": ["Same price all day", "Einheitspreis den ganzen Tag", "Mismo precio todo el día", "Stesso prezzo tutto il giorno", "Dezelfde prijs de hele dag", "Mesmo preço todo o dia", "Ta sama cena przez cały dzień"],
+    "Prix du kWh": ["Price per kWh", "Preis pro kWh", "Precio del kWh", "Prezzo del kWh", "Prijs per kWh", "Preço do kWh", "Cena za kWh"],
+    "Couleur — option Base": ["Colour — Base option", "Farbe — Option Base", "Color — opción Base", "Colore — opzione Base", "Kleur — optie Base", "Cor — opção Base", "Kolor — opcja Base"],
+    "Capteur « Heures creuses » ou « Tarif actuel » (automatique si vide)": ["\"Off-peak hours\" or \"Current rate\" sensor (automatic if empty)", "Sensor „Niedertarif“ oder „Aktueller Tarif“ (automatisch, wenn leer)", "Sensor «Horas valle» o «Tarifa actual» (automático si está vacío)", "Sensore «Ore fuori picco» o «Tariffa attuale» (automatico se vuoto)", "Sensor \"Daluren\" of \"Huidig tarief\" (automatisch indien leeg)", "Sensor «Horas de vazio» ou «Tarifa atual» (automático se vazio)", "Czujnik „Taryfa nocna” lub „Aktualna taryfa” (automatycznie, jeśli puste)"],
+    "Réglages : tarifs et abonnement": ["Settings: rates and subscription", "Einstellungen: Tarife und Grundgebühr", "Ajustes: tarifas y suscripción", "Impostazioni: tariffe e abbonamento", "Instellingen: tarieven en abonnement", "Definições: tarifas e assinatura", "Ustawienia: taryfy i abonament"],
     "Automatique (profil)": ["Automatic (profile)", "Automatisch (Profil)", "Automático (perfil)", "Automatica (profilo)", "Automatisch (profiel)", "Automático (perfil)", "Automatycznie (profil)"],
     "Langue": ["Language", "Sprache", "Idioma", "Lingua", "Taal", "Idioma", "Język"],
     "Titre": ["Title", "Titel", "Título", "Titolo", "Titel", "Título", "Tytuł"],
@@ -110,12 +116,12 @@
     if (o.selector && o.selector.select && o.name !== "language") o.selector = { ...o.selector, select: { ...o.selector.select, options: (o.selector.select.options || []).map((op) => (typeof op === "string" ? op : { ...op, label: _(op.label) })) } };
     if (o.name === "language" && o.selector && o.selector.select) o.selector = { ...o.selector, select: { ...o.selector.select, options: o.selector.select.options.map((op) => (op.value ? op : { ...op, label: _("Automatique (profil)") })) } };
     return o; });
-  const VERSION = "1.2.0";
+  const VERSION = "1.3.0";
   const fmt = (v, d = 4) => (v === null || v === undefined || isNaN(Number(v)) ? "—" : Number(v).toLocaleString(NUMLOC, { minimumFractionDigits: Math.min(d, 2), maximumFractionDigits: d }));
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const hex2rgb = (h) => { const m = /^#?([0-9a-f]{6})$/i.exec(h || ""); if (!m) return undefined; const n = parseInt(m[1], 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
   const rgb2hex = (a) => (Array.isArray(a) ? "#" + a.map((v) => Number(v).toString(16).padStart(2, "0")).join("") : a);
-  const DEF = { hc: "#2e7d32", hp: "#e64a19", bleu: "#2f6fd6", blanc: "#8d99a8", rouge: "#d8433b" };
+  const DEF = { hc: "#2e7d32", hp: "#e64a19", base: "#1e88e5", bleu: "#2f6fd6", blanc: "#8d99a8", rouge: "#d8433b" };
   const TCOL = { Bleu: "bleu", Blanc: "blanc", Rouge: "rouge" };
   // Tempo : lignes de prix par couleur
   const TROWS = ["bleu", "blanc", "rouge"].flatMap((c) => [[`prix_${c}_hc`, `${c[0].toUpperCase() + c.slice(1)} · heures creuses`, "€/kWh", 4, "mdi:circle", c, true],
@@ -125,6 +131,7 @@
   const ROWS = [
     ["prix_hc", _("Heures creuses"), "€/kWh", 4, "mdi:leaf"],
     ["prix_hp", _("Heures pleines"), "€/kWh", 4, "mdi:fire"],
+    ["prix_base", _("Prix du kWh"), "€/kWh", 4, "mdi:flash"],
     ["abonnement_mensuel", _("Abonnement"), _("€/mois"), 2, "mdi:calendar-month"],
     ["cspe", _("CSPE / accise"), "€/kWh", 5, "mdi:bank-outline"],
     ["tcfe", "TCFE", "€/kWh", 5, "mdi:bank-outline"],
@@ -150,7 +157,9 @@
     static getStubConfig(hass) { return { entity: HolmTarifCard.findEntity(hass) || "" }; }
     static findEntity(hass) {
       if (!hass) return null;
-      return Object.keys(hass.states).find((e) => e.startsWith("binary_sensor.") && hass.states[e].attributes.plages_hc !== undefined && hass.states[e].attributes.prochaine_periode !== undefined) || null;
+      return Object.keys(hass.states).find((e) => e.startsWith("binary_sensor.") && hass.states[e].attributes.plages_hc !== undefined && hass.states[e].attributes.prochaine_periode !== undefined)
+        // option Base (prix unique) : pas de capteur « Heures creuses », la carte suit le capteur « Tarif actuel »
+        || Object.keys(hass.states).find((e) => e.startsWith("sensor.") && hass.states[e].attributes.reglages !== undefined && hass.states[e].attributes.option === "base") || null;
     }
     setConfig(c) {
       this._c = { show_details: false, show_progress: true, show_settings: true, background: "always", color_mode: "tempo", ...c };
@@ -170,10 +179,10 @@
     disconnectedCallback() { clearInterval(this._tick); }
     getCardSize() { return this._c && this._c.show_details ? 5 : 2; }
     getGridOptions() { return { columns: 6, min_columns: 4, rows: "auto" }; }
-    _entity() { return this._c.entity || HolmTarifCard.findEntity(this._hass); }
+    _entity() { const e = this._c.entity; return e && this._hass && this._hass.states[e] ? e : HolmTarifCard.findEntity(this._hass); }
     _priceSensor() {
       const h = this._hass; if (!h) return null;
-      const id = Object.keys(h.states).find((e) => e.startsWith("sensor.") && h.states[e].attributes.reglages !== undefined && h.states[e].attributes.prix_hc !== undefined);
+      const id = Object.keys(h.states).find((e) => e.startsWith("sensor.") && h.states[e].attributes.reglages !== undefined && (h.states[e].attributes.prix_hc !== undefined || h.states[e].attributes.prix_base !== undefined));
       return id ? h.states[id] : null;
     }
     _admin() { return !!(this._hass && this._hass.user && this._hass.user.is_admin); }
@@ -200,10 +209,12 @@
       const ent = this._entity(), st = ent && this._hass.states[ent];
       if (!st) { main.innerHTML = `<div class="miss">${_("Intégration HOLM HP/HC introuvable : choisissez son capteur « Heures creuses ».")}</div>`; det.innerHTML = ""; return; }
       const a = st.attributes, hc = st.state === "on";
+      if (a.option === "base" && st.entity_id.startsWith("sensor.")) return this._renderBase(st, card, main, det);
       const tday = TCOL[a.couleur] || null, tomSt = this._hass.states["sensor.tempo_couleur_demain"], ttom = tomSt ? TCOL[tomSt.state] || null : null;
       const col = tday && this._c.color_mode === "tempo" ? this._c.colors[tday] : hc ? this._c.colors.hc : this._c.colors.hp;
       const bg = this._c.background, filled = bg === "always" || (bg === "hc" && hc) || (bg === "hp" && !hc);
       card.style.setProperty("--c", col);
+      card.classList.remove("base");
       card.classList.toggle("hc", hc);
       card.classList.toggle("filled", filled);
       const next = a.prochaine_bascule ? new Date(a.prochaine_bascule) : null, now = new Date();
@@ -235,6 +246,23 @@
           const cur = tc ? tc === tday && thc === hc : (k === "prix_hc" && hc) || (k === "prix_hp" && !hc);
           return `<div class="row${cur ? " cur" : ""}${can ? " ed" : ""}" data-k="${k}" data-ent="${esc(ents[k] || "")}" ${can ? `title="${_("Toucher pour modifier")}"` : ""}>
           <ha-icon icon="${ic}" ${tc ? `style="color:${this._c.colors[tc]}"` : ""}></ha-icon><span class="l">${_(l)}</span><span class="v">${fmt(pa[k], d)} <small>${_(u)}</small></span>${can ? '<ha-icon class="pen" icon="mdi:pencil-outline"></ha-icon>' : ""}</div>`; }).join("")}`;
+    }
+    // option Base : un seul prix toute la journée, ni heures creuses ni bascule
+    _renderBase(st, card, main, det) {
+      card.style.setProperty("--c", this._c.colors.base);
+      card.classList.remove("hc", "tblanc");
+      card.classList.add("base");
+      card.classList.toggle("filled", this._c.background !== "never");
+      const gear = this._c.show_settings && this._admin() ? `<button class="gear" title="${_("Réglages : tarifs et abonnement")}"><ha-icon icon="mdi:cog-outline"></ha-icon></button>` : "";
+      main.innerHTML = `<div class="ico"><ha-icon icon="mdi:flash"></ha-icon></div>
+        <div class="txt"><div class="nm">${esc(this._c.name || _("Tarif Base"))}</div>
+        <div class="pr">${fmt(st.state)} <small>€/kWh</small></div><div class="lb">${_("Prix unique toute la journée")}</div></div>${gear}`;
+      if (!this._c.show_details) { det.innerHTML = ""; det.style.display = "none"; return; }
+      det.style.display = "";
+      if (this._editing) return;
+      const pa = st.attributes, ents = pa.reglages || {}, can = this._admin();
+      det.innerHTML = ROWS.filter(([k]) => pa[k] !== undefined && pa[k] !== null).map(([k, l, u, d, ic]) => `<div class="row${k === "prix_base" ? " cur" : ""}${can ? " ed" : ""}" data-k="${k}" data-ent="${esc(ents[k] || "")}" ${can ? `title="${_("Toucher pour modifier")}"` : ""}>
+          <ha-icon icon="${ic}"></ha-icon><span class="l">${_(l)}</span><span class="v">${fmt(pa[k], d)} <small>${_(u)}</small></span>${can ? '<ha-icon class="pen" icon="mdi:pencil-outline"></ha-icon>' : ""}</div>`).join("");
     }
     // modification rapide d'un prix (entités « nombre » de l'intégration)
     _edit(row) {
@@ -270,11 +298,12 @@
     _closeSettings() { const box = this.shadowRoot.getElementById("set"); box.classList.remove("on"); box.innerHTML = ""; }
     _drawSettings(msg = "") {
       const box = this.shadowRoot.getElementById("set"), d = this._draft;
+      const isBase = this._cfg.tariff === "base";
       box.innerHTML = `
-        <div class="sh"><ha-icon icon="mdi:clock-outline"></ha-icon>${_("Heures creuses")}</div>
+        ${isBase ? "" : `<div class="sh"><ha-icon icon="mdi:clock-outline"></ha-icon>${_("Heures creuses")}</div>
         <div class="rgs">${d.ranges.map(([a, b], i) => `<div class="rg" data-i="${i}"><span>${_("de")}</span><input type="time" data-f="0" value="${a}"><span>${_("à")}</span><input type="time" data-f="1" value="${b}">
           <button class="ib del" title="${_("Supprimer cette plage")}" ${d.ranges.length < 2 ? "disabled" : ""}><ha-icon icon="mdi:close"></ha-icon></button></div>`).join("")}</div>
-        <button class="add"><ha-icon icon="mdi:plus"></ha-icon>${_("Ajouter une plage")}</button>
+        <button class="add"><ha-icon icon="mdi:plus"></ha-icon>${_("Ajouter une plage")}</button>`}
         ${((list) => Object.keys(GROUPS).filter((g) => list.some((p) => (p.group || "base") === g)).map((g) => `
         <div class="sh"><ha-icon icon="${g === "base" ? "mdi:cash-multiple" : "mdi:circle"}" ${g !== "base" ? `style="color:${this._c.colors[g.slice(6)]}"` : ""}></ha-icon>${_(GROUPS[g])}</div>
         <div class="pgs">${list.filter((p) => (p.group || "base") === g).map((p) => `<label class="pg"><span>${esc(g === "base" ? p.name : p.name.replace(/^Prix Tempo \S+ /, ""))}${p.link ? `<i title="${_("Relié à {e} : cette entrée est mise à jour aussi", { e: esc(p.link) })}">${_("relié")}</i>` : ""}</span>
@@ -286,7 +315,7 @@
         <div class="acts"><button class="cancel">${_("Annuler")}</button><button class="save"><ha-icon icon="mdi:content-save-outline"></ha-icon>${_("Enregistrer")}</button></div>`;
       box.querySelectorAll(".rg input").forEach((inp) => inp.addEventListener("change", () => { d.ranges[+inp.closest(".rg").dataset.i][+inp.dataset.f] = inp.value; }));
       box.querySelectorAll(".rg .del").forEach((b) => b.addEventListener("click", () => { d.ranges.splice(+b.closest(".rg").dataset.i, 1); this._drawSettings(); }));
-      box.querySelector(".add").addEventListener("click", () => { d.ranges.push(["12:00", "14:00"]); this._drawSettings(); });
+      const add = box.querySelector(".add"); if (add) add.addEventListener("click", () => { d.ranges.push(["12:00", "14:00"]); this._drawSettings(); });
       box.querySelectorAll(".pg input").forEach((inp) => inp.addEventListener("input", () => { const n = parseFloat(String(inp.value).replace(",", ".")); d.prices[inp.dataset.k] = isNaN(n) ? null : n; }));
       box.querySelector(".cancel").addEventListener("click", () => this._closeSettings());
       box.querySelector(".save").addEventListener("click", () => this._saveSettings());
@@ -388,21 +417,21 @@
         this._form = document.createElement("ha-form");
         this._form.schema = locSchema([
           langField(),
-          { name: "entity", selector: { entity: { domain: "binary_sensor" } } },
+          { name: "entity", selector: { entity: { domain: ["binary_sensor", "sensor"] } } },
           { name: "name", selector: { text: {} } },
           { name: "background", selector: { select: { mode: "dropdown", options: [
             { value: "always", label: _("Toujours") }, { value: "hc", label: _("En heures creuses seulement") },
             { value: "hp", label: _("En heures pleines seulement") }, { value: "never", label: _("Jamais (fond du thème)") }] } } },
-          { type: "grid", name: "", schema: [{ name: "c_hc", selector: { color_rgb: {} } }, { name: "c_hp", selector: { color_rgb: {} } }] },
+          { type: "grid", name: "", schema: [{ name: "c_hc", selector: { color_rgb: {} } }, { name: "c_hp", selector: { color_rgb: {} } }, { name: "c_base", selector: { color_rgb: {} } }] },
           { type: "expandable", title: _("Option Tempo"), icon: "mdi:circle-half-full", flatten: true, schema: [
             { name: "color_mode", selector: { select: { mode: "dropdown", options: [{ value: "tempo", label: _("Couleur du jour Tempo") }, { value: "period", label: _("Heures creuses / heures pleines") }] } } },
             { type: "grid", name: "", schema: [{ name: "c_bleu", selector: { color_rgb: {} } }, { name: "c_blanc", selector: { color_rgb: {} } }, { name: "c_rouge", selector: { color_rgb: {} } }] },
           ] },
           { type: "grid", name: "", schema: [{ name: "show_details", selector: { boolean: {} } }, { name: "show_progress", selector: { boolean: {} } }, { name: "show_settings", selector: { boolean: {} } }] },
         ]);
-        const L = { language: _("Langue"), entity: _("Capteur « Heures creuses » (automatique si vide)"), name: _("Titre (sinon Heures creuses / Heures pleines)"), background: _("Fond coloré"),
+        const L = { language: _("Langue"), entity: _("Capteur « Heures creuses » ou « Tarif actuel » (automatique si vide)"), name: _("Titre (sinon Heures creuses / Heures pleines)"), background: _("Fond coloré"),
           show_details: _("Afficher les tarifs et l'abonnement"), show_progress: _("Barre d'avancement de la période"), show_settings: _("Bouton Réglages (administrateurs)"),
-          c_hc: _("Couleur — heures creuses"), c_hp: _("Couleur — heures pleines"), color_mode: _("Couleur de la carte en Tempo"),
+          c_hc: _("Couleur — heures creuses"), c_hp: _("Couleur — heures pleines"), c_base: _("Couleur — option Base"), color_mode: _("Couleur de la carte en Tempo"),
           c_bleu: _("Couleur — jour Bleu"), c_blanc: _("Couleur — jour Blanc"), c_rouge: _("Couleur — jour Rouge") };
         this._form.computeLabel = (s) => (L[s.name] ? _(L[s.name]) : s.name);
         this._form.addEventListener("value-changed", (ev) => {

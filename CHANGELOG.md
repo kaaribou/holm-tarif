@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.0
+- **Option Base (prix unique)** : troisième option tarifaire (`tariff: base`), à côté de *Heures creuses / heures pleines* et de *Tempo*.
+  - Un seul prix du kWh : `number.tarif_prix_base` (saisi à l'installation, modifiable, peut être relié à une entrée existante).
+  - `sensor.tarif_actuel` = ce prix à toute heure (attributs `option`, `periode: Base`, `prix_base`) ; abonnement, taxes et rachat inchangés.
+  - Pas d'heures creuses : `binary_sensor.heures_creuses`, `sensor.mode_heure`, `sensor.prochain_changement_de_mode`, `sensor.prochaine_bascule` et les prix HC / HP ne sont pas créés (retirés en passant à Base) ; montants conservés pour un retour en HC / HP.
+  - Carte HOLM HP/HC : affichage « Tarif Base » (couleur `colors.base`), détails et réglages sans plages heures creuses ; elle suit `sensor.tarif_actuel` quand il n'y a pas de capteur « Heures creuses ».
+  - Traductions dans les 8 langues.
+- Nouvel attribut `option` (`hchp`, `tempo`, `base`) sur `sensor.tarif_actuel`, utilisé par HOLM Ecojoko Card 1.5.0 pour reprendre vos prix.
+- Sans changer d'option, rien ne change.
+
 ## 1.2.0
 - **8 langues** : traductions allemand, espagnol, italien, néerlandais, portugais et polonais ajoutées (configuration, options, entités, actions), en plus du français et de l'anglais. Carte HOLM HP/HC traduite elle aussi (éditeur compris), avec une nouvelle option `language` ; elle suit sinon la langue du profil Home Assistant (anglais si la langue n'est pas traduite).
 - README en anglais (`README.en.md`).

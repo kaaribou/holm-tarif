@@ -16,6 +16,7 @@ HOLM HP/HC sait à tout moment si vous êtes en **heures creuses** ou en **heure
 
 - 🌗 **Plages heures creuses** en clair : `14:58-16:58, 23:28-05:28` — autant de plages que nécessaire, y compris à cheval sur minuit, changements d'heure compris.
 - 🔵⚪🔴 **Option Tempo (EDF)** : couleur du jour et de demain (trouvées automatiquement avec RTE Tempo), 6 prix, et le tarif en cours selon la couleur et la période.
+- 💡 **Option Base (prix unique)** : un seul prix du kWh toute la journée, sans heures creuses — avec l'abonnement et les taxes comme d'habitude.
 - 📟 **Compteur Linky facultatif** : si votre compteur indique la période en cours, il prime sur les horaires.
 - 💶 **Prix, taxes et abonnement portés par l'intégration** : saisis à l'installation, modifiables ensuite dans Home Assistant ou **depuis la carte**. Rien à créer avant.
 - 🔗 **Entrées existantes reliées** : vous aviez déjà vos `input_number` (tableau Énergie, cartes) ? Ils sont détectés et restent à jour dans les deux sens.
@@ -28,10 +29,14 @@ HOLM HP/HC sait à tout moment si vous êtes en **heures creuses** ou en **heure
 | ![Heures creuses et heures pleines](docs/images/hc-hp.png) | ![Réglages](docs/images/reglages.png) |
 
 
-### 🆕 Nouveautés de la 1.2.0
+### 🆕 Nouveautés de la 1.3.0
 
-- 🌍 **8 langues** : l'intégration (configuration, options, entités, actions) est traduite en français, anglais, allemand, espagnol, italien, néerlandais, portugais et polonais, selon la langue de Home Assistant. La carte **HOLM HP/HC** aussi, éditeur compris ; son option `language` permet d'imposer une langue.
-- 🇬🇧 README en anglais.
+- 💡 **Option Base (prix unique)** : troisième option tarifaire, à côté de *Heures creuses / heures pleines* et de *Tempo*. Un seul prix du kWh (`number.tarif_prix_base`), donné par `sensor.tarif_actuel` à toute heure ; les entités propres aux heures creuses sont retirées. Voir [Option Base](#option-base-prix-unique).
+- 🎨 **Carte HOLM HP/HC en Base** : « Tarif Base », le prix du kWh et « Prix unique toute la journée », dans une couleur à part (`colors.base`) ; les réglages ne montrent plus les plages heures creuses.
+- 🔗 `sensor.tarif_actuel` indique l'option choisie (attribut `option` : `hchp`, `tempo` ou `base`). La carte [HOLM Ecojoko Card](https://github.com/kaaribou/holm-ecojoko-card) 1.5.0 s'en sert pour reprendre vos prix automatiquement, y compris en Base.
+- Sans changer d'option, rien ne change.
+
+![La carte HOLM HP/HC en Base](docs/images/base.png)
 
 ---
 
@@ -50,9 +55,9 @@ Copiez `custom_components/holm_tarif` dans le dossier `custom_components` de vot
 
 **Paramètres → Appareils et services → Ajouter une intégration → HOLM HP/HC.**
 
-1. **Option tarifaire** : *Heures creuses / heures pleines*, ou *Tempo (EDF)*.
-2. **Plages heures creuses** : `14:58-16:58, 23:28-05:28` (une plage peut passer minuit).
-3. **Prix, taxes et abonnement** : prix du kWh HC et HP, abonnement mensuel, CSPE / accise, TCFE, prix et taxe de rachat du surplus. Tout est facultatif sauf ce dont vous avez besoin.
+1. **Option tarifaire** : *Heures creuses / heures pleines*, *Tempo (EDF)* ou *Base (prix unique)*.
+2. **Plages heures creuses** : `14:58-16:58, 23:28-05:28` (une plage peut passer minuit) ; ignorées en Base.
+3. **Prix, taxes et abonnement** : prix du kWh HC et HP (ou prix du kWh Base), abonnement mensuel, CSPE / accise, TCFE, prix et taxe de rachat du surplus. Tout est facultatif sauf ce dont vous avez besoin.
 4. **Option Tempo** (si vous l'avez choisie) : les 6 prix et l'entité qui donne la couleur du jour (et de demain) — voir [Option Tempo](#option-tempo).
 5. **Entrées existantes et compteur** (facultatif) :
    - si vous avez déjà des entrées de prix (`input_number`) utilisées par le tableau Énergie ou vos cartes, **reliez-les** : elles sont détectées automatiquement, et chaque modification de prix les met à jour (et inversement) ;
@@ -66,7 +71,7 @@ Tout se modifie ensuite dans **Configurer**, ou directement depuis la carte (bou
 |---|---|
 | `binary_sensor.heures_creuses` | Allumé pendant les heures creuses — la référence pour vos automatisations |
 | `sensor.mode_heure` | `Heures Creuses` / `Heures Pleines` |
-| `sensor.tarif_actuel` | Prix du kWh en cours (€/kWh), avec tous les prix en attributs |
+| `sensor.tarif_actuel` | Prix du kWh en cours (€/kWh), avec tous les prix en attributs et l'option tarifaire (`option`) |
 | `sensor.prochain_changement_de_mode` | « Heures Pleines dans 1h37m » |
 | `sensor.prochaine_bascule` | Date et heure de la prochaine bascule |
 | `sensor.abonnement_par_jour` | Abonnement mensuel ramené à la journée (€) |
@@ -109,6 +114,26 @@ La carte HOLM HP/HC affiche la couleur du jour et de demain, prend la couleur du
 
 ![La carte HOLM HP/HC en Tempo](docs/images/tempo.png)
 
+## Option Base (prix unique)
+
+Avec l'option tarifaire **Base (prix unique)**, le kWh coûte le même prix à toute heure (option Base d'EDF, offres à prix fixe) :
+
+- **Un seul prix** : `number.tarif_prix_base`, modifiable comme les autres ; il peut aussi être relié à une entrée existante (section *Entrées existantes*).
+- **`sensor.tarif_actuel`** donne ce prix en permanence (attributs `option: base`, `periode: Base`, `prix_base`, et les taxes et l'abonnement) : le tableau Énergie compte juste.
+- **`sensor.abonnement_par_jour`**, l'abonnement, les taxes et le rachat du surplus restent disponibles.
+- **Pas d'heures creuses** : `binary_sensor.heures_creuses`, `sensor.mode_heure`, `sensor.prochain_changement_de_mode`, `sensor.prochaine_bascule` et les prix HC / HP ne sont pas créés (ils sont retirés si vous passez d'une autre option à Base), et aucun évènement `holm_tarif_changement` n'est envoyé. Vos montants HC / HP restent conservés : en revenant à l'option HC / HP, tout réapparaît.
+
+| Entité | Valeur |
+|---|---|
+| `sensor.tarif_actuel` | Le prix du kWh Base (€/kWh) |
+| `sensor.abonnement_par_jour` | Abonnement mensuel ramené à la journée (€) |
+| `number.tarif_prix_base` | Prix du kWh Base (modifiable) |
+| `number.tarif_abonnement`, `number.tarif_cspe`, `number.tarif_tcfe`, `number.tarif_prix_rachat`, `number.tarif_taxe_revente` | Comme en HC / HP |
+
+La carte HOLM HP/HC suit alors `sensor.tarif_actuel` : icône éclair, « Tarif Base », le prix du kWh et « Prix unique toute la journée », dans la couleur `colors.base` (bleu par défaut). Avec `show_details`, la ligne **Prix du kWh** est mise en avant, suivie de l'abonnement et des taxes ; ses réglages ⚙ ne montrent que les prix, taxes et abonnement.
+
+> ⚠️ Si vos automatisations utilisent `binary_sensor.heures_creuses`, revoyez-les avant de passer en Base : ce capteur n'existe pas dans cette option.
+
 ### Vous aviez déjà vos propres capteurs modèles ?
 
 Si vous utilisiez des capteurs modèles nommés **Mode heure**, **Tarif actuel** ou **Prochain changement de mode**, supprimez-les de votre configuration et redémarrez **avant** d'ajouter l'intégration : elle reprend alors les mêmes noms d'entités, et leur **historique continue**. Vos cartes qui les utilisaient fonctionnent sans changement.
@@ -126,13 +151,13 @@ show_details: true        # tarifs et abonnement
 | Option | Description | Par défaut |
 |---|---|---|
 | `language` | Langue de la carte : `fr`, `en`, `de`, `es`, `it`, `nl`, `pt`, `pl` | celle du profil |
-| `entity` | Capteur « Heures creuses » de l'intégration | trouvé automatiquement |
-| `name` | Titre | Heures creuses / Heures pleines |
+| `entity` | Capteur « Heures creuses » de l'intégration (ou « Tarif actuel » en Base) | trouvé automatiquement |
+| `name` | Titre | Heures creuses / Heures pleines (Tarif Base en Base) |
 | `show_details` | Afficher les tarifs, taxes et abonnement (modifiables) | `false` |
 | `show_progress` | Barre d'avancement de la période en cours | `true` |
-| `background` | Fond coloré : `always`, `hc` (heures creuses seulement), `hp` (heures pleines seulement), `never` (fond du thème) | `always` |
+| `background` | Fond coloré : `always`, `hc` (heures creuses seulement), `hp` (heures pleines seulement), `never` (fond du thème) ; en Base, tout réglage sauf `never` colore la carte | `always` |
 | `show_settings` | Bouton ⚙ **Réglages** (administrateurs seulement) | `true` |
-| `colors` | `hc` et `hp`, et `bleu` / `blanc` / `rouge` pour Tempo | vert / orange |
+| `colors` | `hc` et `hp`, `base` pour l'option Base, et `bleu` / `blanc` / `rouge` pour Tempo | vert / orange / bleu |
 | `color_mode` | Tempo : couleur de la carte selon le jour (`tempo`) ou la période (`period`) | `tempo` |
 
 L'éditeur visuel est disponible. Un toucher sur la carte ouvre le détail de la période.
@@ -142,7 +167,7 @@ L'éditeur visuel est disponible. Un toucher sur la carte ouvre le détail de la
 ## Avec les autres projets HOLM
 
 - **HOLM Lektrico** : choisissez `binary_sensor.heures_creuses` comme source des heures creuses (valeur `on`).
-- **HOLM Ecojoko Card** et cartes énergie : elles utilisent vos mêmes entrées de prix et `sensor.tarif_actuel`. L'option Tempo de HOLM Ecojoko Card trouve aussi `sensor.tempo_couleur_aujourdhui` et `sensor.tempo_couleur_demain`.
+- **HOLM Ecojoko Card** et cartes énergie : elles utilisent vos mêmes entrées de prix et `sensor.tarif_actuel`. Depuis sa version 1.5.0, HOLM Ecojoko Card **reprend automatiquement les prix de l'intégration** quand ses champs de prix sont vides (HC / HP, Tempo, Base et prix de rachat). Son option Tempo trouve aussi `sensor.tempo_couleur_aujourdhui` et `sensor.tempo_couleur_demain`.
 
 ## FAQ
 

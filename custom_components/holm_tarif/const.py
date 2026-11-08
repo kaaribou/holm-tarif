@@ -1,11 +1,12 @@
 """Constantes de HOLM HP/HC, Tarification et abonnement."""
 DOMAIN = "holm_tarif"
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 NAME = "HOLM HP/HC"
 
 CONF_RANGES = "hc_ranges"
 CONF_PRICE_HC = "price_hc"
 CONF_PRICE_HP = "price_hp"
+CONF_PRICE_BASE = "price_base"
 CONF_SUBSCRIPTION = "subscription"
 CONF_CSPE = "cspe"
 CONF_TCFE = "tcfe"
@@ -16,6 +17,8 @@ CONF_LINKY_HC = "linky_hc_values"
 CONF_TARIFF = "tariff"
 TARIFF_HCHP = "hchp"
 TARIFF_TEMPO = "tempo"
+TARIFF_BASE = "base"
+TARIFFS = (TARIFF_HCHP, TARIFF_TEMPO, TARIFF_BASE)
 CONF_TEMPO_TODAY = "tempo_today_entity"
 CONF_TEMPO_TOMORROW = "tempo_tomorrow_entity"
 SECTION_TEMPO = "tempo"
@@ -33,13 +36,14 @@ DEFAULT_LINKY_HC = "HC, HC.., heures creuses, creuses"
 AUTO_DETECT = {
     CONF_PRICE_HC: (("heures_creuses",), ("hc",)),
     CONF_PRICE_HP: (("heures_pleines",), ("hp",)),
+    CONF_PRICE_BASE: (("prix_base",), ("tarif_base",), ("kwh_base",)),
     CONF_SUBSCRIPTION: (("abonnement",),),
     CONF_CSPE: (("cspe",), ("contribution",)),
     CONF_TCFE: (("tcfe",), ("taxe_sur_la_consommation",)),
     CONF_BUYBACK: (("rachat",),),
     CONF_BUYBACK_TAX: (("taxe_revente",),),
 }
-PRICE_KEYS = (CONF_PRICE_HC, CONF_PRICE_HP, CONF_SUBSCRIPTION, CONF_CSPE, CONF_TCFE, CONF_BUYBACK, CONF_BUYBACK_TAX)
+PRICE_KEYS = (CONF_PRICE_HC, CONF_PRICE_HP, CONF_PRICE_BASE, CONF_SUBSCRIPTION, CONF_CSPE, CONF_TCFE, CONF_BUYBACK, CONF_BUYBACK_TAX)
 CONF_VALUES = "values"        # montants saisis à l'installation (ensuite conservés par l'intégration)
 SECTION_PRICES = "prix"
 SECTION_LINKS = "liens"
@@ -48,6 +52,7 @@ SECTION_LINKS = "liens"
 PRICE_DEFS = {
     CONF_PRICE_HC: ("Prix heures creuses", "tarif_prix_hc", "EUR/kWh", 5, "prix_hc"),
     CONF_PRICE_HP: ("Prix heures pleines", "tarif_prix_hp", "EUR/kWh", 5, "prix_hp"),
+    CONF_PRICE_BASE: ("Prix du kWh (Base)", "tarif_prix_base", "EUR/kWh", 5, "prix_base"),
     CONF_SUBSCRIPTION: ("Abonnement mensuel", "tarif_abonnement", "EUR", 2, "abonnement_mensuel"),
     CONF_CSPE: ("CSPE / accise", "tarif_cspe", "EUR/kWh", 5, "cspe"),
     CONF_TCFE: ("TCFE", "tarif_tcfe", "EUR/kWh", 5, "tcfe"),
@@ -62,6 +67,9 @@ STORE_KEY = "holm_tarif.values"
 
 HC_LABEL = "Heures Creuses"
 HP_LABEL = "Heures Pleines"
+BASE_LABEL = "Base"
+# entités propres aux heures creuses / pleines, retirées en option Base (prix unique)
+HCHP_ONLY = ("heures_creuses", "mode_heure", "prochain_changement", "prochaine_bascule")
 EVENT_CHANGE = "holm_tarif_changement"
 
 STATIC_PATH = "/holm_tarif_static"

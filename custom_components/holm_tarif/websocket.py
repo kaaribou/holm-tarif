@@ -28,7 +28,7 @@ def _payload(entry, admin: bool) -> dict:
         "prices": [{"key": k, "name": PRICE_DEFS[k][0], "unit": PRICE_DEFS[k][2], "decimals": PRICE_DEFS[k][3],
                     "value": m.value(k), "link": m.entities.get(k), "entity_id": f"number.{PRICE_DEFS[k][1]}",
                     "group": ("tempo_" + k.split("_")[1]) if k.count("_") == 2 else "base"} for k in m.active_keys()],
-        "tariff": "tempo" if m.tempo else "hchp",
+        "tariff": m.tariff,
         "tempo": {"today": TEMPO_LABELS.get(m.state.get("tempo")), "tomorrow": TEMPO_LABELS.get(m.state.get("tempo_tomorrow")),
                   "source": m.tempo_today, "source_tomorrow": m.tempo_tomorrow} if m.tempo else None,
         "admin": admin,

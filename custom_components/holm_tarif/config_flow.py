@@ -11,13 +11,13 @@ from homeassistant.helpers import selector
 
 from .const import (ALL_KEYS, AUTO_DETECT, CONF_LINKY, CONF_LINKY_HC, CONF_RANGES, CONF_TARIFF, CONF_TEMPO_TODAY,
                     CONF_TEMPO_TOMORROW, CONF_VALUES, DEFAULT_LINKY_HC, DEFAULT_RANGES, DOMAIN, NAME, PRICE_DEFS, PRICE_KEYS,
-                    SECTION_LINKS, SECTION_PRICES, SECTION_TEMPO, TARIFF_HCHP, TARIFF_TEMPO, TEMPO_KEYS)
+                    SECTION_LINKS, SECTION_PRICES, SECTION_TEMPO, TARIFF_HCHP, TARIFF_TEMPO, TARIFFS, TEMPO_KEYS)
 from .schedule import format_ranges, parse_ranges
 from .tarif import find_tempo_entity
 
 _LINK_SEL = selector.EntitySelector(selector.EntitySelectorConfig(domain=["input_number", "number", "sensor"]))
 _COLOR_SEL = selector.EntitySelector(selector.EntitySelectorConfig(domain=["sensor", "select", "input_select"]))
-_TARIFF_SEL = selector.SelectSelector(selector.SelectSelectorConfig(options=[TARIFF_HCHP, TARIFF_TEMPO], translation_key="tariff",
+_TARIFF_SEL = selector.SelectSelector(selector.SelectSelectorConfig(options=list(TARIFFS), translation_key="tariff",
                                                                     mode=selector.SelectSelectorMode.DROPDOWN))
 
 
@@ -72,7 +72,7 @@ def _flatten(user_input: dict) -> tuple[dict, dict]:
     prices = user_input.get(SECTION_PRICES) or {}
     links = user_input.get(SECTION_LINKS) or {}
     tempo = user_input.get(SECTION_TEMPO) or {}
-    out[CONF_TARIFF] = TARIFF_TEMPO if user_input.get(CONF_TARIFF) == TARIFF_TEMPO else TARIFF_HCHP
+    out[CONF_TARIFF] = user_input.get(CONF_TARIFF) if user_input.get(CONF_TARIFF) in TARIFFS else TARIFF_HCHP
     out[CONF_VALUES] = {k: float(prices[k]) for k in PRICE_KEYS if prices.get(k) is not None}
     out[CONF_VALUES].update({k: float(tempo[k]) for k in TEMPO_KEYS if tempo.get(k) is not None})
     for k in (CONF_TEMPO_TODAY, CONF_TEMPO_TOMORROW):

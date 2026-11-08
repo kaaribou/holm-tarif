@@ -9,8 +9,8 @@
           "hc_ranges": "Plages heures creuses"
         },
         "data_description": {
-          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit.",
-          "tariff": "Heures creuses / heures pleines, ou Tempo (jours Bleus, Blancs et Rouges)."
+          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit. Ignorées en option Base.",
+          "tariff": "Heures creuses / heures pleines, Tempo (jours Bleus, Blancs et Rouges), ou Base (un seul prix toute la journée)."
         },
         "sections": {
           "prix": {
@@ -19,6 +19,7 @@
             "data": {
               "price_hc": "Prix du kWh en heures creuses",
               "price_hp": "Prix du kWh en heures pleines",
+              "price_base": "Prix du kWh (option Base)",
               "subscription": "Abonnement (€ par mois)",
               "cspe": "CSPE / accise (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -50,6 +51,7 @@
             "data": {
               "price_hc": "Prix du kWh en heures creuses",
               "price_hp": "Prix du kWh en heures pleines",
+              "price_base": "Prix du kWh (option Base)",
               "subscription": "Abonnement",
               "cspe": "CSPE / accise",
               "tcfe": "TCFE",
@@ -83,8 +85,8 @@
           "hc_ranges": "Plages heures creuses"
         },
         "data_description": {
-          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit.",
-          "tariff": "Heures creuses / heures pleines, ou Tempo (jours Bleus, Blancs et Rouges)."
+          "hc_ranges": "Séparées par des virgules, ex. « 14:58-16:58, 23:28-05:28 ». Une plage peut passer minuit. Ignorées en option Base.",
+          "tariff": "Heures creuses / heures pleines, Tempo (jours Bleus, Blancs et Rouges), ou Base (un seul prix toute la journée)."
         },
         "sections": {
           "prix": {
@@ -93,6 +95,7 @@
             "data": {
               "price_hc": "Prix du kWh en heures creuses",
               "price_hp": "Prix du kWh en heures pleines",
+              "price_base": "Prix du kWh (option Base)",
               "subscription": "Abonnement (€ par mois)",
               "cspe": "CSPE / accise (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -124,6 +127,7 @@
             "data": {
               "price_hc": "Prix du kWh en heures creuses",
               "price_hp": "Prix du kWh en heures pleines",
+              "price_base": "Prix du kWh (option Base)",
               "subscription": "Abonnement",
               "cspe": "CSPE / accise",
               "tcfe": "TCFE",
@@ -148,7 +152,8 @@
     "tariff": {
       "options": {
         "hchp": "Heures creuses / heures pleines",
-        "tempo": "Tempo (EDF)"
+        "tempo": "Tempo (EDF)",
+        "base": "Base (prix unique)"
       }
     }
   }

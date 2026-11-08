@@ -9,8 +9,8 @@
           "hc_ranges": "Daltijdvakken"
         },
         "data_description": {
-          "hc_ranges": "Gescheiden door komma's, bv. 14:58-16:58, 23:28-05:28.",
-          "tariff": "Dal-/piekuren, of Tempo (blauwe, witte en rode dagen)."
+          "hc_ranges": "Gescheiden door komma's, bv. \"14:58-16:58, 23:28-05:28\". Een periode mag over middernacht gaan. Genegeerd bij de optie Base.",
+          "tariff": "Dal- / piekuren, Tempo (blauwe, witte en rode dagen) of Base (één prijs de hele dag)."
         },
         "sections": {
           "prix": {
@@ -18,6 +18,7 @@
             "data": {
               "price_hc": "Dalprijs per kWh",
               "price_hp": "Piekprijs per kWh",
+              "price_base": "Prijs per kWh (optie Base)",
               "subscription": "Vastrecht (€ per maand)",
               "cspe": "CSPE / accijns (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -48,6 +49,7 @@
             "data": {
               "price_hc": "Dalprijs per kWh",
               "price_hp": "Piekprijs per kWh",
+              "price_base": "Prijs per kWh (optie Base)",
               "subscription": "Vastrecht (€ per maand)",
               "cspe": "CSPE / accijns (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -77,8 +79,8 @@
           "hc_ranges": "Daltijdvakken"
         },
         "data_description": {
-          "hc_ranges": "Gescheiden door komma's, bv. 14:58-16:58, 23:28-05:28.",
-          "tariff": "Dal-/piekuren, of Tempo (blauwe, witte en rode dagen)."
+          "hc_ranges": "Gescheiden door komma's, bv. \"14:58-16:58, 23:28-05:28\". Een periode mag over middernacht gaan. Genegeerd bij de optie Base.",
+          "tariff": "Dal- / piekuren, Tempo (blauwe, witte en rode dagen) of Base (één prijs de hele dag)."
         },
         "sections": {
           "prix": {
@@ -86,6 +88,7 @@
             "data": {
               "price_hc": "Dalprijs per kWh",
               "price_hp": "Piekprijs per kWh",
+              "price_base": "Prijs per kWh (optie Base)",
               "subscription": "Vastrecht (€ per maand)",
               "cspe": "CSPE / accijns (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -116,6 +119,7 @@
             "data": {
               "price_hc": "Dalprijs per kWh",
               "price_hp": "Piekprijs per kWh",
+              "price_base": "Prijs per kWh (optie Base)",
               "subscription": "Vastrecht (€ per maand)",
               "cspe": "CSPE / accijns (€/kWh)",
               "tcfe": "TCFE (€/kWh)",
@@ -136,7 +140,8 @@
     "tariff": {
       "options": {
         "hchp": "Dal- / piekuren",
-        "tempo": "Tempo (EDF)"
+        "tempo": "Tempo (EDF)",
+        "base": "Base (enkel tarief)"
       }
     }
   }

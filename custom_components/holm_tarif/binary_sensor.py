@@ -8,7 +8,8 @@ from .entity import TarifEntity
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    async_add_entities([HCBinarySensor(entry, entry.runtime_data)])
+    if not entry.runtime_data.base:      # option Base : pas d'heures creuses
+        async_add_entities([HCBinarySensor(entry, entry.runtime_data)])
 
 
 class HCBinarySensor(TarifEntity, BinarySensorEntity):
