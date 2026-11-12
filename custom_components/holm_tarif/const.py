@@ -1,6 +1,6 @@
 """Constantes de HOLM HP/HC, Tarification et abonnement."""
 DOMAIN = "holm_tarif"
-VERSION = "1.3.0"
+VERSION = "1.3.1"
 NAME = "HOLM HP/HC"
 
 CONF_RANGES = "hc_ranges"

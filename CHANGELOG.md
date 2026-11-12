@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1
+- Icône de l'intégration (dossier `brand`), affichée dans Home Assistant et dans la Marketplace.
+- Préparation de l'entrée dans le catalogue de la Marketplace : validation automatique (Hassfest et HACS) et pays `FR` déclaré dans `hacs.json`.
+- Aucun changement de fonctionnement.
+
 ## 1.3.0
 - **Option Base (prix unique)** : troisième option tarifaire (`tariff: base`), à côté de *Heures creuses / heures pleines* et de *Tempo*.
   - Un seul prix du kWh : `number.tarif_prix_base` (saisi à l'installation, modifiable, peut être relié à une entrée existante).
