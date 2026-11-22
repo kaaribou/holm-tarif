@@ -29,7 +29,14 @@ HOLM HP/HC sait à tout moment si vous êtes en **heures creuses** ou en **heure
 | ![Heures creuses et heures pleines](docs/images/hc-hp.png) | ![Réglages](docs/images/reglages.png) |
 
 
-### 🆕 Nouveautés de la 1.3.0
+### 🆕 Nouveautés de la 1.3.2
+
+- 🎯 **Éditeur de la carte plus clair** : le champ s'appelle désormais **« Entité HOLM HP/HC (automatique si vide) »** et ne propose plus que les entités de l'intégration. Un texte d'aide sous le champ rappelle que votre compteur Linky (TIC, Lixee, Teleinfo…) **ne se choisit pas ici** mais dans les options de l'intégration. Voir [Choisir l'entité de la carte](#choisir-lentité-de-la-carte).
+- 💬 **Message dans la carte** si l'entité choisie ne vient pas de HOLM HP/HC (par exemple un capteur Linky) : « Ce capteur ne vient pas de HOLM HP/HC : reliez votre compteur Linky dans les options de l'intégration. »
+- 🛟 **Carte plus tolérante** : avec un tel capteur, le badge Heures creuses / Heures pleines reste juste (`on`, `true`, `HC..`, « Heure creuse », « Heures creuses »…, sans tenir compte des majuscules ni des espaces) et la ligne de prix est masquée au lieu d'afficher « — €/kWh ».
+- Mise à jour de la carte seulement : **aucun redémarrage**, rafraîchissez le navigateur (Ctrl+F5).
+
+### Nouveautés de la 1.3.0
 
 - 💡 **Option Base (prix unique)** : troisième option tarifaire, à côté de *Heures creuses / heures pleines* et de *Tempo*. Un seul prix du kWh (`number.tarif_prix_base`), donné par `sensor.tarif_actuel` à toute heure ; les entités propres aux heures creuses sont retirées. Voir [Option Base](#option-base-prix-unique).
 - 🎨 **Carte HOLM HP/HC en Base** : « Tarif Base », le prix du kWh et « Prix unique toute la journée », dans une couleur à part (`colors.base`) ; les réglages ne montrent plus les plages heures creuses.
@@ -151,7 +158,7 @@ show_details: true        # tarifs et abonnement
 | Option | Description | Par défaut |
 |---|---|---|
 | `language` | Langue de la carte : `fr`, `en`, `de`, `es`, `it`, `nl`, `pt`, `pl` | celle du profil |
-| `entity` | Capteur « Heures creuses » de l'intégration (ou « Tarif actuel » en Base) | trouvé automatiquement |
+| `entity` | Entité HOLM HP/HC : « Heures creuses » de l'intégration (ou « Tarif actuel » en Base). Pas votre compteur Linky (voir ci-dessous) | trouvée automatiquement |
 | `name` | Titre | Heures creuses / Heures pleines (Tarif Base en Base) |
 | `show_details` | Afficher les tarifs, taxes et abonnement (modifiables) | `false` |
 | `show_progress` | Barre d'avancement de la période en cours | `true` |
@@ -161,6 +168,21 @@ show_details: true        # tarifs et abonnement
 | `color_mode` | Tempo : couleur de la carte selon le jour (`tempo`) ou la période (`period`) | `tempo` |
 
 L'éditeur visuel est disponible. Un toucher sur la carte ouvre le détail de la période.
+
+### Choisir l'entité de la carte
+
+![Le champ « Entité HOLM HP/HC » de l'éditeur, avec son texte d'aide](docs/images/editeur-entite.png)
+
+- **Entité HOLM HP/HC (automatique si vide)** : laissez le champ vide, la carte trouve seule le capteur « Heures creuses » de l'intégration (ou « Tarif actuel » en Base). La liste ne propose que les entités de l'intégration HOLM HP/HC.
+- **Texte d'aide** sous le champ : votre **compteur Linky** (TIC, Lixee, Teleinfo…) ne se choisit pas dans la carte. Reliez-le dans **Paramètres → Appareils et services → HOLM HP/HC → Configurer → Entrées existantes et compteur** (« Compteur Linky : période en cours »). L'intégration suit alors votre compteur, et la carte affiche ses horaires, ses prix et la prochaine bascule.
+
+Si une carte a été réglée sur un autre capteur (par exemple celui de votre compteur, configuré en YAML ou avant la 1.3.2) :
+
+![La carte réglée sur un capteur Linky : badge juste et message d'aide](docs/images/capteur-externe.png)
+
+- **Badge Heures creuses / Heures pleines** : il reste juste. La carte reconnaît `on`, `true`, `HC`, `HC..`, « Heure creuse », « Heures creuses », sans tenir compte des majuscules ni des espaces ; toute autre valeur compte comme heures pleines.
+- **Prix** : masqué, car ce capteur ne donne pas de tarif (plus de « — €/kWh »).
+- **Message ⓘ** : « Ce capteur ne vient pas de HOLM HP/HC : reliez votre compteur Linky dans les options de l'intégration. » Videz le champ de la carte et reliez le compteur à l'intégration pour retrouver toutes les informations.
 
 **Réglages** (bouton ⚙, réservé aux administrateurs de Home Assistant) : ajoutez, modifiez ou supprimez les plages heures creuses avec des sélecteurs d'heure, et modifiez les prix, taxes et abonnement. **Enregistrer** applique tout immédiatement, sans redémarrage. Les prix reliés à une entrée existante sont signalés : l'entrée est mise à jour en même temps. Avec `show_details`, un administrateur peut aussi modifier un prix d'un simple toucher.
 
@@ -172,6 +194,8 @@ L'éditeur visuel est disponible. Un toucher sur la carte ouvre le détail de la
 ## FAQ
 
 **La période ne change pas à la bonne heure.** Vérifiez le fuseau horaire de Home Assistant (*Paramètres → Système → Général*) et vos plages dans **Configurer**.
+
+**J'ai choisi mon capteur Linky dans la carte et le prix affiche « — ».** Le compteur se relie dans les options de l'intégration, pas dans la carte : voir [Choisir l'entité de la carte](#choisir-lentité-de-la-carte). Si votre compteur utilise d'autres libellés pour les heures creuses, ajoutez-les dans **Valeurs du compteur qui signifient « heures creuses »** (par défaut `HC, HC.., heures creuses, creuses`).
 
 **Mon compteur et les horaires ne sont pas d'accord.** Si un compteur Linky est configuré, c'est lui qui décide ; la prochaine bascule affichée reste calculée d'après vos plages.
 

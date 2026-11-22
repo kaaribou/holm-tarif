@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2
+- Carte HOLM HP/HC, éditeur : le champ devient **« Entité HOLM HP/HC (automatique si vide) »**, ne liste plus que les entités de l'intégration et affiche un texte d'aide : le compteur Linky (TIC, Lixee, Teleinfo…) se relie dans les options de l'intégration ([#2](https://github.com/kaaribou/holm-tarif/issues/2)).
+- Carte : message « Ce capteur ne vient pas de HOLM HP/HC : reliez votre compteur Linky dans les options de l'intégration. » quand l'entité choisie ne vient pas de l'intégration.
+- Carte : lecture tolérante de l'état heures creuses (`on`, `true`, `hc`, `hc..`, « heure creuse », « heures creuses »…, sans tenir compte des majuscules ni des espaces) ; la ligne de prix est masquée quand l'entité n'a pas d'attribut `tarif`.
+- Traductions dans les 8 langues. Carte seulement : aucun redémarrage nécessaire (Ctrl+F5).
+
 ## 1.3.1
 - Icône de l'intégration (dossier `brand`), affichée dans Home Assistant et dans la Marketplace.
 - Préparation de l'entrée dans le catalogue de la Marketplace : validation automatique (Hassfest et HACS) et pays `FR` déclaré dans `hacs.json`.

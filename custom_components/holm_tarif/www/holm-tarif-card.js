@@ -61,6 +61,9 @@
     "Rachat du surplus": ["Surplus buy-back", "Einspeisevergütung", "Venta de excedentes", "Cessione del surplus", "Teruglevering overschot", "Venda do excedente", "Odkup nadwyżki"],
     "Taxe sur la revente": ["Tax on resale", "Steuer auf Einspeisung", "Impuesto sobre la venta", "Tassa sulla vendita", "Belasting op teruglevering", "Imposto sobre a venda", "Podatek od sprzedaży"],
     "Intégration HOLM HP/HC introuvable : choisissez son capteur « Heures creuses ».": ["HOLM HP/HC integration not found: choose its “Off-peak hours” sensor.", "Integration HOLM HP/HC nicht gefunden: Wählen Sie ihren Sensor „Niedertarif“.", "No se encuentra la integración HOLM HP/HC: elige su sensor «Horas valle».", "Integrazione HOLM HP/HC non trovata: scegli il suo sensore «Fuori punta».", "Integratie HOLM HP/HC niet gevonden: kies de sensor ‘Daluren’.", "Integração HOLM HP/HC não encontrada: escolha o seu sensor «Horas de vazio».", "Nie znaleziono integracji HOLM HP/HC: wybierz jej czujnik „Poza szczytem”."],
+    "Ce capteur ne vient pas de HOLM HP/HC : reliez votre compteur Linky dans les options de l'intégration.": ["This sensor does not come from HOLM HP/HC: link your Linky meter in the integration options.", "Dieser Sensor stammt nicht von HOLM HP/HC: Verbinden Sie Ihren Linky-Zähler in den Optionen der Integration.", "Este sensor no procede de HOLM HP/HC: vincula tu contador Linky en las opciones de la integración.", "Questo sensore non proviene da HOLM HP/HC: collega il tuo contatore Linky nelle opzioni dell'integrazione.", "Deze sensor komt niet van HOLM HP/HC: koppel uw Linky-meter in de opties van de integratie.", "Este sensor não vem do HOLM HP/HC: ligue o seu contador Linky nas opções da integração.", "Ten czujnik nie pochodzi z HOLM HP/HC: podłącz licznik Linky w opcjach integracji."],
+    "Entité HOLM HP/HC (automatique si vide)": ["HOLM HP/HC entity (automatic if empty)", "HOLM HP/HC-Entität (automatisch, wenn leer)", "Entidad HOLM HP/HC (automática si está vacía)", "Entità HOLM HP/HC (automatica se vuota)", "HOLM HP/HC-entiteit (automatisch indien leeg)", "Entidade HOLM HP/HC (automática se vazia)", "Encja HOLM HP/HC (automatycznie, jeśli puste)"],
+    "Choisissez « Heures creuses » ou « Tarif actuel » de l'intégration. Votre compteur Linky (TIC, Lixee, Teleinfo…) ne se choisit pas ici : reliez-le dans Paramètres → Appareils et services → HOLM HP/HC → Configurer.": ["Choose the integration's “Off-peak hours” or “Current price” entity. Your Linky meter (TIC, Lixee, Teleinfo…) is not selected here: link it in Settings → Devices & services → HOLM HP/HC → Configure.", "Wählen Sie „Niedertarif“ oder „Aktueller Preis“ der Integration. Ihr Linky-Zähler (TIC, Lixee, Teleinfo…) wird nicht hier gewählt: Verbinden Sie ihn unter Einstellungen → Geräte & Dienste → HOLM HP/HC → Konfigurieren.", "Elige «Horas valle» o «Precio actual» de la integración. Tu contador Linky (TIC, Lixee, Teleinfo…) no se elige aquí: vincúlalo en Ajustes → Dispositivos y servicios → HOLM HP/HC → Configurar.", "Scegli «Fuori punta» o «Prezzo attuale» dell'integrazione. Il contatore Linky (TIC, Lixee, Teleinfo…) non si sceglie qui: collegalo in Impostazioni → Dispositivi e servizi → HOLM HP/HC → Configura.", "Kies ‘Daluren’ of ‘Huidige prijs’ van de integratie. Uw Linky-meter (TIC, Lixee, Teleinfo…) kiest u hier niet: koppel hem via Instellingen → Apparaten en diensten → HOLM HP/HC → Configureren.", "Escolha «Horas de vazio» ou «Preço atual» da integração. O contador Linky (TIC, Lixee, Teleinfo…) não se escolhe aqui: ligue-o em Definições → Dispositivos e serviços → HOLM HP/HC → Configurar.", "Wybierz „Poza szczytem” lub „Aktualna cena” z integracji. Licznika Linky (TIC, Lixee, Teleinfo…) nie wybiera się tutaj: podłącz go w Ustawienia → Urządzenia i usługi → HOLM HP/HC → Konfiguruj."],
     "{p} dans {d}": ["{p} in {d}", "{p} in {d}", "{p} en {d}", "{p} tra {d}", "{p} over {d}", "{p} dentro de {d}", "{p} za {d}"],
     "(à {t})": ["(at {t})", "(um {t})", "(a las {t})", "(alle {t})", "(om {t})", "(às {t})", "(o {t})"],
     "Réglages : heures creuses et tarifs": ["Settings: off-peak hours and prices", "Einstellungen: Niedertarif und Preise", "Ajustes: horas valle y precios", "Impostazioni: fuori punta e prezzi", "Instellingen: daluren en prijzen", "Definições: horas de vazio e preços", "Ustawienia: godziny poza szczytem i ceny"],
@@ -116,7 +119,13 @@
     if (o.selector && o.selector.select && o.name !== "language") o.selector = { ...o.selector, select: { ...o.selector.select, options: (o.selector.select.options || []).map((op) => (typeof op === "string" ? op : { ...op, label: _(op.label) })) } };
     if (o.name === "language" && o.selector && o.selector.select) o.selector = { ...o.selector, select: { ...o.selector.select, options: o.selector.select.options.map((op) => (op.value ? op : { ...op, label: _("Automatique (profil)") })) } };
     return o; });
-  const VERSION = "1.3.1";
+  const VERSION = "1.3.2";
+  // état « heures creuses » tolérant : on, true, hc, « Heure creuse », « HC.. » (Linky TIC)… en minuscules, sans espaces autour
+  const HC_ON = ["on", "true", "1", "hc", "hc..", "heure creuse", "heures creuses", "off-peak", "offpeak"];
+  const isHC = (v) => { const t = String(v ?? "").trim().toLowerCase(); return HC_ON.includes(t) || /^hc\b|^hc\.|^hc$/.test(t) || /^heures? creuses?/.test(t); };
+  // l'entité vient-elle de l'intégration HOLM HP/HC ?
+  const isHolm = (hass, id) => { const r = hass && hass.entities && hass.entities[id]; if (r && r.platform) return r.platform === "holm_tarif";
+    const a = (hass && hass.states[id] && hass.states[id].attributes) || {}; return (a.plages_hc !== undefined && a.prochaine_periode !== undefined) || a.reglages !== undefined; };
   const fmt = (v, d = 4) => (v === null || v === undefined || isNaN(Number(v)) ? "—" : Number(v).toLocaleString(NUMLOC, { minimumFractionDigits: Math.min(d, 2), maximumFractionDigits: d }));
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const hex2rgb = (h) => { const m = /^#?([0-9a-f]{6})$/i.exec(h || ""); if (!m) return undefined; const n = parseInt(m[1], 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
@@ -208,7 +217,7 @@
       const card = this.shadowRoot.querySelector("ha-card"), main = this.shadowRoot.getElementById("main"), det = this.shadowRoot.getElementById("det");
       const ent = this._entity(), st = ent && this._hass.states[ent];
       if (!st) { main.innerHTML = `<div class="miss">${_("Intégration HOLM HP/HC introuvable : choisissez son capteur « Heures creuses ».")}</div>`; det.innerHTML = ""; return; }
-      const a = st.attributes, hc = st.state === "on";
+      const a = st.attributes, hc = isHC(st.state), foreign = !isHolm(this._hass, ent), hint = foreign ? `<div class="hint"><ha-icon icon="mdi:information-outline"></ha-icon>${esc(_("Ce capteur ne vient pas de HOLM HP/HC : reliez votre compteur Linky dans les options de l'intégration."))}</div>` : "";
       if (a.option === "base" && st.entity_id.startsWith("sensor.")) return this._renderBase(st, card, main, det);
       const tday = TCOL[a.couleur] || null, tomSt = this._hass.states["sensor.tempo_couleur_demain"], ttom = tomSt ? TCOL[tomSt.state] || null : null;
       const col = tday && this._c.color_mode === "tempo" ? this._c.colors[tday] : hc ? this._c.colors.hc : this._c.colors.hp;
@@ -235,7 +244,7 @@
       card.classList.toggle("tblanc", tday === "blanc" && this._c.color_mode === "tempo");
       main.innerHTML = `<div class="ico"><ha-icon icon="${hc ? "mdi:leaf-circle-outline" : "mdi:fire-circle"}"></ha-icon></div>
         <div class="txt">${tempo}<div class="nm">${esc(this._c.name || (hc ? _("Heures creuses") : _("Heures pleines")))}</div>
-        <div class="pr">${fmt(a.tarif)} <small>€/kWh</small></div><div class="lb">${label}</div>${prog}</div>${gear}`;
+        ${a.tarif !== undefined && a.tarif !== null ? `<div class="pr">${fmt(a.tarif)} <small>€/kWh</small></div>` : ""}<div class="lb">${label}</div>${prog}${hint}</div>${gear}`;
       if (!this._c.show_details) { det.innerHTML = ""; det.style.display = "none"; return; }
       det.style.display = "";
       if (this._editing) return;
@@ -403,6 +412,8 @@
       ha-card.tblanc.filled .nm { color: inherit; }
       .tsrc { margin-top:8px; font-size:11.5px; opacity:.75; }
       .miss { padding:10px 14px; font-size:13px; color: var(--primary-text-color); }
+      .hint { display:flex; gap:6px; align-items:flex-start; margin-top:6px; font-size:12px; line-height:1.35; opacity:.9; }
+      .hint ha-icon { --mdc-icon-size:16px; flex:none; }
       @media (prefers-reduced-motion: reduce) { .ico ha-icon { animation:none !important; } }`;
     }
   }
@@ -417,7 +428,7 @@
         this._form = document.createElement("ha-form");
         this._form.schema = locSchema([
           langField(),
-          { name: "entity", selector: { entity: { domain: ["binary_sensor", "sensor"] } } },
+          { name: "entity", selector: { entity: { filter: [{ integration: "holm_tarif", domain: "binary_sensor" }, { integration: "holm_tarif", domain: "sensor" }] } } },
           { name: "name", selector: { text: {} } },
           { name: "background", selector: { select: { mode: "dropdown", options: [
             { value: "always", label: _("Toujours") }, { value: "hc", label: _("En heures creuses seulement") },
@@ -429,11 +440,12 @@
           ] },
           { type: "grid", name: "", schema: [{ name: "show_details", selector: { boolean: {} } }, { name: "show_progress", selector: { boolean: {} } }, { name: "show_settings", selector: { boolean: {} } }] },
         ]);
-        const L = { language: _("Langue"), entity: _("Capteur « Heures creuses » ou « Tarif actuel » (automatique si vide)"), name: _("Titre (sinon Heures creuses / Heures pleines)"), background: _("Fond coloré"),
+        const L = { language: _("Langue"), entity: _("Entité HOLM HP/HC (automatique si vide)"), name: _("Titre (sinon Heures creuses / Heures pleines)"), background: _("Fond coloré"),
           show_details: _("Afficher les tarifs et l'abonnement"), show_progress: _("Barre d'avancement de la période"), show_settings: _("Bouton Réglages (administrateurs)"),
           c_hc: _("Couleur — heures creuses"), c_hp: _("Couleur — heures pleines"), c_base: _("Couleur — option Base"), color_mode: _("Couleur de la carte en Tempo"),
           c_bleu: _("Couleur — jour Bleu"), c_blanc: _("Couleur — jour Blanc"), c_rouge: _("Couleur — jour Rouge") };
         this._form.computeLabel = (s) => (L[s.name] ? _(L[s.name]) : s.name);
+        this._form.computeHelper = (s) => (s.name === "entity" ? _("Choisissez « Heures creuses » ou « Tarif actuel » de l'intégration. Votre compteur Linky (TIC, Lixee, Teleinfo…) ne se choisit pas ici : reliez-le dans Paramètres → Appareils et services → HOLM HP/HC → Configurer.") : undefined);
         this._form.addEventListener("value-changed", (ev) => {
           const v = { ...ev.detail.value }, out = { ...this._config }, colors = { ...(this._config.colors || {}) };
           for (const [k, val] of Object.entries(v)) {

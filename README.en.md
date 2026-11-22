@@ -31,7 +31,14 @@ HOLM HP/HC (*heures pleines / heures creuses*: peak / off-peak hours, as in Fren
 
 *Screenshots in French — the card follows the language of your Home Assistant profile.*
 
-### 🆕 What's new in 1.3.0
+### 🆕 What's new in 1.3.2
+
+- 🎯 **Clearer card editor**: the field is now called **"HOLM HP/HC entity (automatic if empty)"** and only lists the integration's entities. A help text under the field reminds you that your Linky meter (TIC, Lixee, Teleinfo…) is **not selected here** but in the integration options. See [Choosing the card's entity](#choosing-the-cards-entity).
+- 💬 **Message in the card** when the chosen entity does not come from HOLM HP/HC (a Linky sensor, for example): "This sensor does not come from HOLM HP/HC: link your Linky meter in the integration options."
+- 🛟 **More tolerant card**: with such a sensor, the Off-peak / Peak badge stays right (`on`, `true`, `HC..`, "Heure creuse", "Heures creuses"…, ignoring case and spaces) and the price line is hidden instead of showing "— €/kWh".
+- Card-only update: **no restart**, refresh your browser (Ctrl+F5).
+
+### What's new in 1.3.0
 
 - 💡 **Base option (single price)**: a third tariff option, next to *Off-peak / peak hours* and *Tempo*. One kWh price (`number.tarif_prix_base`), given by `sensor.tarif_actuel` at any time; the off-peak-only entities are removed. See [Base option](#base-option-single-price).
 - 🎨 **HOLM HP/HC card with Base**: "Base rate", the kWh price and "Same price all day", in its own colour (`colors.base`); the settings no longer show off-peak ranges.
@@ -155,7 +162,7 @@ show_details: true        # prices and subscription
 | Option | Description | Default |
 |---|---|---|
 | `language` | Card language: `fr`, `en`, `de`, `es`, `it`, `nl`, `pt`, `pl` | the profile's |
-| `entity` | The integration's off-peak sensor (or "Tarif actuel" with Base) | found automatically |
+| `entity` | HOLM HP/HC entity: the integration's off-peak sensor (or "Tarif actuel" with Base). Not your Linky meter (see below) | found automatically |
 | `name` | Title | Off-peak hours / Peak hours (Base rate with Base) |
 | `show_details` | Show prices, taxes and subscription (editable) | `false` |
 | `show_progress` | Progress bar of the current period | `true` |
@@ -165,6 +172,21 @@ show_details: true        # prices and subscription
 | `color_mode` | Tempo: card colour from the day (`tempo`) or the period (`period`) | `tempo` |
 
 The visual editor is available. Tapping the card opens the period details.
+
+### Choosing the card's entity
+
+![The "HOLM HP/HC entity" field of the editor, with its help text](docs/images/editeur-entite.en.png)
+
+- **HOLM HP/HC entity (automatic if empty)**: leave it empty and the card finds the integration's off-peak sensor by itself ("Tarif actuel" with Base). The list only offers the HOLM HP/HC integration's entities.
+- **Help text** under the field: your **Linky meter** (TIC, Lixee, Teleinfo…) is not selected in the card. Link it in **Settings → Devices & services → HOLM HP/HC → Configure → Existing helpers and meter** ("Linky meter: current period"). The integration then follows your meter, and the card shows its ranges, prices and next switch.
+
+If a card was set to another sensor (your meter's, for example, set in YAML or before 1.3.2):
+
+![The card set to a Linky sensor: correct badge and help message](docs/images/capteur-externe.en.png)
+
+- **Off-peak / Peak badge**: still right. The card understands `on`, `true`, `HC`, `HC..`, "Heure creuse", "Heures creuses", ignoring case and spaces; any other value counts as peak hours.
+- **Price**: hidden, since this sensor gives no price (no more "— €/kWh").
+- **ⓘ message**: "This sensor does not come from HOLM HP/HC: link your Linky meter in the integration options." Clear the card's field and link the meter to the integration to get all the information back.
 
 **Settings** (⚙ button, for Home Assistant administrators): add, edit or delete off-peak ranges with time pickers, and edit prices, taxes and subscription. **Save** applies everything immediately, without restarting. Prices linked to an existing helper are flagged: the helper is updated at the same time. With `show_details`, an administrator can also edit a price with a simple tap.
 
@@ -176,6 +198,8 @@ The visual editor is available. Tapping the card opens the period details.
 ## FAQ
 
 **The period doesn't change at the right time.** Check Home Assistant's time zone (*Settings → System → General*) and your ranges in **Configure**.
+
+**I picked my Linky sensor in the card and the price shows "—".** The meter is linked in the integration options, not in the card: see [Choosing the card's entity](#choosing-the-cards-entity). If your meter uses other labels for off-peak hours, add them in **Meter values meaning off-peak** (default `HC, HC.., heures creuses, creuses`).
 
 **My meter and the schedule disagree.** If a Linky meter is configured, it decides; the next switch shown is still computed from your ranges.
 
